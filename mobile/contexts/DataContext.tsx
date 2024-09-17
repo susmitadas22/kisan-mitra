@@ -32,6 +32,7 @@ type DataContextType = {
     lang: "hi" | "en" | "bn" | "pn" | "as"
   ) => Promise<void>;
   weather: any;
+  diseases: DiseaseReponseType[];
 };
 
 Notifications.setNotificationHandler({
@@ -123,6 +124,7 @@ export function DataProvider({ children }: DataProviderProps) {
   const [_, setNotification] = useState<Notifications.Notification | undefined>(
     undefined
   );
+  const [diseases, setDiseases] = useState<DiseaseReponseType[]>([]);
 
   const notificationListener = useRef<Notifications.Subscription>();
   const responseListener = useRef<Notifications.Subscription>();
@@ -203,8 +205,17 @@ export function DataProvider({ children }: DataProviderProps) {
       lat: coords?.latitude,
       lng: coords?.longitude,
       sub,
+      mine: false,
     }).then((res) => {
       setNearbyDiseases(res.data.body);
+    });
+    Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
+      lat: coords?.latitude,
+      lng: coords?.longitude,
+      sub,
+      mine: true,
+    }).then((res) => {
+      setDiseases(res.data.body);
     });
     Axios.get("http://192.168.232.76:3000/api/v1/inventory", {
       params: {
@@ -247,6 +258,7 @@ export function DataProvider({ children }: DataProviderProps) {
     inventory,
     weather,
     sharedInventory,
+    diseases,
   };
   if (!coords) return null;
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

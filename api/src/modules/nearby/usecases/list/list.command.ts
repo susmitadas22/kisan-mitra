@@ -1,5 +1,5 @@
 import { AuthenticatedCommand } from '@shared/command';
-import { IsDefined, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsBoolean, IsDefined, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class ListCommand extends AuthenticatedCommand {
   @IsDefined()
@@ -11,4 +11,9 @@ export class ListCommand extends AuthenticatedCommand {
   @IsNotEmpty()
   @IsNumber()
   lng: number;
+
+  @IsDefined()
+  @IsNotEmpty()
+  @IsBoolean()
+  mine: boolean;
 }
