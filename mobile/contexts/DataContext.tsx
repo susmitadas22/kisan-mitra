@@ -3,6 +3,7 @@ import * as Location from 'expo-location';
 import Axios from "axios";
 import { DiseaseReponseType } from "@/types";
 import { useLogto } from "@logto/rn";
+import * as SecureStore from 'expo-secure-store';
 type DataProviderProps = {
     children: ReactNode;
 };
@@ -13,6 +14,7 @@ type DataContextType = {
     nearbyDiseases: DiseaseReponseType[];
     sub: string | null;
     language: "hi" | "en" | "bn" | "pn"
+    setLanguageToSecureStore: (lang: "hi" | "en" | "bn" | "pn") => Promise<void>
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -27,10 +29,26 @@ export function useData() {
 
 export function DataProvider({ children }: DataProviderProps) {
     const [coords, setCoords] = useState<Location.LocationObjectCoords | null>(null)
-    const [language, setLanguage] = useState<"hi" | "en" | "bn" | "pn">("bn")
+    const [language, setLanguage] = useState<"hi" | "en" | "bn" | "pn">("en")
     const [location, setLocation] = useState<Location.LocationGeocodedAddress | null>(null)
     const [nearbyDiseases, setNearbyDiseases] = useState<DiseaseReponseType[]>([])
     const [sub, setSub] = useState<string | null>(null)
+    async function setLanguageToSecureStore(lang: "hi" | "en" | "bn" | "pn") {
+        const language = await SecureStore.setItemAsync("language", lang);
+        setLanguage(lang)
+    }
+    async function getLanguageFromSecureStore() {
+        const language = await SecureStore.getItemAsync("language");
+        if (!language) {
+            await setLanguageToSecureStore("en")
+            setLanguage("en")
+        }
+        setLanguage(language as "hi" | "en" | "bn" | "pn")
+    }
+    useEffect(() => {
+        getLanguageFromSecureStore();
+    }, [])
+
     const { getIdTokenClaims } = useLogto()
     async function getSub() {
         const { sub } = await getIdTokenClaims();
@@ -77,7 +95,9 @@ export function DataProvider({ children }: DataProviderProps) {
         location,
         nearbyDiseases,
         sub,
-        language
+        language,
+        setLanguage,
+        setLanguageToSecureStore
     }
     if (!coords) return null;
     return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

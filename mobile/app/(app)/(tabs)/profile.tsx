@@ -1,12 +1,64 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-
+import { globalStyles } from '@/constants/styles'
+import { ThemedText } from '@/components/ThemedText'
+import { useData } from '@/contexts/DataContext'
+const LANGS = [
+    {
+        code: "en",
+        name: "English",
+    },
+    {
+        code: "hi",
+        name: "Hindi",
+    },
+    {
+        code: "bn",
+        name: "Bengali",
+    },
+    {
+        code: "pn",
+        name: "Punjabi"
+    }
+]
 export default function Profile() {
+    const { language, setLanguageToSecureStore } = useData()
     return (
-        <View>
-            <Text>Profile</Text>
+        <View style={globalStyles.pageWrapper}>
+            <FlatList
+                horizontal
+                ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+                renderItem={({ item }) => {
+                    return <Item
+                        isCurrent={language === item.code}
+                        {...item} />;
+                }}
+                keyExtractor={(item) => item.code}
+                data={LANGS}
+            />
         </View>
     )
 }
 
-const styles = StyleSheet.create({})
+const Item: React.FC<any> = ({ isCurrent, code, name }) => {
+    const { setLanguageToSecureStore } = useData()
+    return (
+        <TouchableOpacity
+            disabled={isCurrent}
+            onPress={async () => await setLanguageToSecureStore(code)}
+            style={[
+                styles.itemContainer,
+                isCurrent ? { backgroundColor: "white" } : {}
+            ]}>
+            <ThemedText style={{ color: isCurrent ? "black" : "white" }}>{name}</ThemedText>
+        </TouchableOpacity>
+    )
+}
+
+const styles = StyleSheet.create({
+    itemContainer: {
+        padding: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+    }
+})

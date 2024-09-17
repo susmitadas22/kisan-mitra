@@ -1,7 +1,7 @@
 import { useData } from "@/contexts/DataContext";
 import { DiseaseReponseType } from "@/types";
 import { FlashList } from "@shopify/flash-list";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemedCard } from "./ThemedCard";
 import { ThemedText } from "./ThemedText";
 import { FlatList, View } from "react-native";
@@ -13,6 +13,13 @@ export default function NearbyDiseases() {
         title: Texts[language].nearbyDiseaseTitle,
         description: Texts[language].nearbyDiseaseDescription
     })
+    useEffect(() => {
+        setTexts({
+            title: Texts[language].nearbyDiseaseTitle,
+            description: Texts[language].nearbyDiseaseDescription
+        })
+
+    }, [language])
     return (
         <FlatList
             ListHeaderComponent={
