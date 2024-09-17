@@ -1,12 +1,20 @@
+import Inventory from "@/components/Inventory";
 import NearbyDiseases from "@/components/NearbyDiseases";
 import { globalStyles } from "@/constants/styles";
 import React from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 export default function Explore() {
   return (
-    <View style={globalStyles.pageWrapper}>
+    <ScrollView 
+    showsVerticalScrollIndicator={false}
+    style={{
+      flex: 1,
+      padding: 10
+    }}>
       <NearbyDiseases />
-    </View>
+      <Inventory />
+      <Inventory />
+    </ScrollView>
   )
 }

@@ -3,6 +3,7 @@ import React from 'react'
 import { globalStyles } from '@/constants/styles'
 import { ThemedText } from '@/components/ThemedText'
 import { useData } from '@/contexts/DataContext'
+import { ThemedCard } from '@/components/ThemedCard'
 const LANGS = [
     {
         code: "en",
@@ -25,7 +26,20 @@ export default function Profile() {
     const { language, setLanguageToSecureStore } = useData()
     return (
         <View style={globalStyles.pageWrapper}>
-            <FlatList
+            <ThemedCard>
+
+                <View style={{ marginBottom: 20 }}>
+                    <ThemedText style={{ fontSize: 15, textTransform: 'uppercase' }}>Change App Language</ThemedText>
+                </View>
+                <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+                    {LANGS.map((item) => {
+                        return <Item
+                            isCurrent={language === item.code}
+                            {...item} />;
+                    })}
+                </View>
+            </ThemedCard>
+            {/* <FlatList
                 horizontal
                 ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
                 renderItem={({ item }) => {
@@ -35,7 +49,7 @@ export default function Profile() {
                 }}
                 keyExtractor={(item) => item.code}
                 data={LANGS}
-            />
+            /> */}
         </View>
     )
 }
@@ -44,6 +58,7 @@ const Item: React.FC<any> = ({ isCurrent, code, name }) => {
     const { setLanguageToSecureStore } = useData()
     return (
         <TouchableOpacity
+            key={code}
             disabled={isCurrent}
             onPress={async () => await setLanguageToSecureStore(code)}
             style={[
