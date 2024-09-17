@@ -29,6 +29,7 @@ model Inventory {
   updatedAt DateTime @updatedAt
   name      String
   quantity  Int?
+  shared    Boolean?
   price     Float?
 }
 

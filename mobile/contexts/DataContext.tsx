@@ -25,6 +25,7 @@ type DataContextType = {
   location: Location.LocationGeocodedAddress | null;
   nearbyDiseases: DiseaseReponseType[];
   inventory: InventoryItemType[];
+  sharedInventory: InventoryItemType[];
   sub: string | null;
   language: "hi" | "en" | "bn" | "pn" | "as";
   setLanguageToSecureStore: (
@@ -114,6 +115,9 @@ export function DataProvider({ children }: DataProviderProps) {
   );
   const [sub, setSub] = useState<string | null>(null);
   const [inventory, setInventory] = useState<InventoryItemType[]>([]);
+  const [sharedInventory, setSharedInventory] = useState<InventoryItemType[]>(
+    []
+  );
   const [weather, setWeather] = useState<any>(null);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [_, setNotification] = useState<Notifications.Notification | undefined>(
@@ -202,8 +206,10 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setNearbyDiseases(res.data.body);
     });
-    Axios.post("http://192.168.232.76:3000/api/v1/inventory", {
-      sub,
+    Axios.get("http://192.168.232.76:3000/api/v1/inventory", {
+      params: {
+        sub,
+      },
     }).then((res) => {
       setInventory(res.data.body);
     });
@@ -223,6 +229,11 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setWeather(res.data.body);
     });
+    Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore").then(
+      (res) => {
+        setSharedInventory(res.data.body);
+      }
+    );
   }, [coords]);
 
   const value = {
@@ -235,6 +246,7 @@ export function DataProvider({ children }: DataProviderProps) {
     setLanguageToSecureStore,
     inventory,
     weather,
+    sharedInventory,
   };
   if (!coords) return null;
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

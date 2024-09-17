@@ -4,10 +4,8 @@ import React, { useEffect, useState } from "react";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Texts } from "@/constants/texts";
 import { useData } from "@/contexts/DataContext";
-import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const { language } = useData();
   const [texts, setTexts] = useState({
     Explore: Texts[language].Explore,
