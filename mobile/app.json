@@ -16,7 +16,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "plugins": [
       "expo-router",
@@ -44,6 +49,17 @@
     },
     "ios": {
       "bundleIdentifier": "dev.jabed.kisanmitra"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9eac294c-cd18-440c-bc3e-d25adf361af7"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/9eac294c-cd18-440c-bc3e-d25adf361af7"
     }
   }
 }
