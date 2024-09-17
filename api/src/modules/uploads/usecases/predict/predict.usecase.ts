@@ -24,20 +24,26 @@ export class Predict {
   }
   async execute(command: PredictCommand) {
     const { sub, image } = command;
+    const mime = image.mimetype.split('/')[1];
     const { id, mimeType } = await this.prismaService.image.create({
       data: {
         sub,
-        mimeType: image.originalname.split('.').pop(),
+        mimeType: mime,
       },
     });
+    console.log(`${id}.${mimeType}`);
     await this.s3Client.send(
       new PutObjectCommand({
         Bucket: this.configService.getOrThrow('s3.bucket'),
-        Key: id,
+        Key: `${id}.${mimeType}`,
         Body: image.buffer,
         ContentType: image.mimetype,
       }),
     );
+    console.log({
+      id,
+      mimeType,
+    });
     console.log(`https://kisan.jabed.dev/${id}.${mimeType}`);
     // try {
     //   const { data } = await axios.post(PREDICT_URL, {
