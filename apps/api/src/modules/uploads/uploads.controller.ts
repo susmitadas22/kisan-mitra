@@ -8,8 +8,6 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AuthUser } from '@shared/decorators';
-import { IAuthPayload } from '@shared/types';
 // import { Create, CreateCommand } from './usecases/create';
 
 @ApiTags('uploads')
@@ -21,7 +19,6 @@ export class UploadsController {
   @ApiOperation({ summary: 'Upload an item' })
   @UseInterceptors(FileInterceptor('image'))
   create(
-    @AuthUser() user: IAuthPayload,
     @Body() payload: any,
     @UploadedFile(
       new ParseFilePipe({
@@ -38,7 +35,7 @@ export class UploadsController {
     //     image: file,
     //   }),
     // );
-    console.log({ user, payload, file });
+    console.log({ payload, file });
     return {
       message: 'success',
     };
