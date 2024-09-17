@@ -26,6 +26,12 @@ export default function AppLayout() {
               headerBackTitleVisible: false,
             }}
           />
+          <Stack.Screen
+            name="diseases"
+            options={{
+              headerBackTitleVisible: false,
+            }}
+          />
         </Stack>
       </DataProvider>
     </ThemeProvider>

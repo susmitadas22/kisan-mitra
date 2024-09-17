@@ -36,6 +36,9 @@ export default function Inventory() {
     { light: Colors.light.background, dark: Colors.dark.background },
     "background"
   );
+  const [name, setName] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(0);
   return (
     <>
       <Stack.Screen

@@ -131,16 +131,24 @@ export default function Profile() {
           })}
         </View>
       </ThemedCard>
-      <TouchableOpacity
-        onPress={() => {
-          route.push("/(app)/inventory");
-        }}
-        style={globalStyles.mutedButton}
-      >
-        <Text style={globalStyles.mutedButtonText}>
-          Your inventory
-        </Text>
-      </TouchableOpacity>
+      <View style={{ marginTop: 20 }}>
+        <TouchableOpacity
+          onPress={() => {
+            route.push("/(app)/inventory");
+          }}
+          style={globalStyles.mutedButton}
+        >
+          <Text style={globalStyles.mutedButtonText}>Your inventory</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            route.push("/(app)/diseases");
+          }}
+          style={globalStyles.mutedButton}
+        >
+          <Text style={globalStyles.mutedButtonText}>Your Searches</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
