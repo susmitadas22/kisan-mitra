@@ -26,6 +26,7 @@
     "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@ai-sdk/google": "^0.0.48",
     "@aws-sdk/client-s3": "^3.651.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
@@ -34,13 +35,16 @@
     "@nestjs/swagger": "^7.4.1",
     "@nestjs/terminus": "^10.2.3",
     "@prisma/client": "5.19.1",
+    "ai": "^3.3.39",
     "axios": "^1.7.7",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "helmet": "^7.1.0",
     "ollama": "^0.5.9",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "zod": "^3.23.8",
+    "zod-ai": "^0.0.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

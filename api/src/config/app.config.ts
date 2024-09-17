@@ -14,6 +14,7 @@ type AppConfig = {
     host: string;
     port: number;
   };
+  ai: string;
 };
 
 export default registerAs(
@@ -34,5 +35,6 @@ export default registerAs(
         ? Number.parseInt(process.env.HTTP_PORT)
         : 8000,
     },
+    ai: process.env.AI_KEY ?? 'auto',
   }),
 );

@@ -1,10 +1,11 @@
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PREDICT_URL } from '@shared/constants';
 import { PrismaService } from '@shared/database';
+import { generateText } from 'ai';
 import axios from 'axios';
-import ollama from 'ollama';
 import { PredictCommand } from './predict.command';
 
 type Prediction = {
@@ -14,6 +15,7 @@ type Prediction = {
 @Injectable()
 export class Predict {
   private S3Client: S3Client;
+  private logger = new Logger(Predict.name);
   constructor(
     private readonly prismaService: PrismaService,
     private readonly configService: ConfigService,
@@ -32,18 +34,14 @@ export class Predict {
     });
   }
   async execute(command: PredictCommand) {
-    const { sub, image, type } = command;
+    const { sub, image, type, lat, lng } = command;
     const { id } = await this.prismaService.image.create({
       data: {
         mimeType: type,
         sub,
+        lat,
+        lng,
       },
-    });
-    console.log({
-      Bucket: this.configService.get<string>('s3.bucket'),
-      Key: `${id}.${type.split('/')[1]}`,
-      Body: Buffer.from(image, 'base64'),
-      ContentType: type,
     });
     const base64Data = Buffer.from(image, 'base64');
     await this.S3Client.send(
@@ -54,37 +52,89 @@ export class Predict {
         ContentType: type,
       }),
     );
-    console.log(`https://kisan.jabed.dev/${id}.${type.split('/')[1]}`);
+    const url = `https://kisan.jabed.dev/${id}.${type.split('/')[1]}`;
     try {
       const { data } = await axios.post<Prediction[]>(PREDICT_URL, {
         sub,
         image: `https://kisan.jabed.dev/${id}.${type.split('/')[1]}`,
       });
-      const response = await ollama.chat({
-        model: 'llama3',
+      const google = createGoogleGenerativeAI({
+        apiKey: this.configService.get<string>('app.ai'),
+      });
+      console.log(`${data[0].label}`);
+      const cause = await generateText({
+        model: google('gemini-pro'),
         messages: [
           {
             role: 'user',
-            content: `Cause for the disease is ${data[0].label}, also give the cure to it. Answer in a single paragragh and 50 words maximum.`,
+            content: [
+              {
+                type: 'text',
+                text: `state causes for this plant disease ${data[0].label} in 20 words in a single paragraph`,
+              },
+            ],
           },
         ],
       });
-      const { data: translated } = await axios.post<{
-        translatedText: string;
-      }>('https://libretranslate.com/translate', {
-        q: response.message.content,
-        source: 'auto',
-        target: 'hi',
-        format: 'text',
-        alternatives: 3,
-        api_key: '',
+      const cure = await generateText({
+        model: google('gemini-pro'),
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: `state cure for this plant disease ${data[0].label} in 20 words in a single paragraph`,
+              },
+            ],
+          },
+        ],
       });
-
+      const symptoms = await generateText({
+        model: google('gemini-pro'),
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: `state symptoms for this plant disease ${data[0].label} in 20 words in a single paragraph`,
+              },
+            ],
+          },
+        ],
+      });
+      const preventions = await generateText({
+        model: google('gemini-pro'),
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: `state preventions for this plant disease ${data[0].label} in 20 words in a single paragraph. also give the name of the medicines u say`,
+              },
+            ],
+          },
+        ],
+      });
+      console.log({
+        cause: cause.text,
+        cure: cure.text,
+        symptoms: symptoms.text,
+        preventions: preventions.text,
+      });
       return {
-        name: data[0].label,
-        text: translated.translatedText,
+        id,
+        url,
+        disease: data[0].label,
+        cause: cause.text,
+        cure: cure.text,
+        symptoms: symptoms.text,
+        preventions: preventions.text,
       };
-    } catch (error) {
+    } catch (error: any) {
+      this.logger.error(error);
       throw new HttpException(
         'Error while trying to predict image',
         error.response.status,

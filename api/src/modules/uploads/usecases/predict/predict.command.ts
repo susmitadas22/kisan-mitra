@@ -1,5 +1,5 @@
 import { AuthenticatedCommand } from '@shared/command';
-import { IsDefined, IsNotEmpty, IsString } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class PredictCommand extends AuthenticatedCommand {
   @IsDefined()
@@ -16,4 +16,14 @@ export class PredictCommand extends AuthenticatedCommand {
   @IsNotEmpty()
   @IsString()
   type: string;
+
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  lat: number;
+
+  @IsDefined()
+  @IsNotEmpty()
+  @IsNumber()
+  lng: number;
 }
