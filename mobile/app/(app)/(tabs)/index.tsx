@@ -6,15 +6,16 @@ import { ScrollView, View } from "react-native";
 
 export default function Explore() {
   return (
-    <ScrollView 
-    showsVerticalScrollIndicator={false}
-    style={{
-      flex: 1,
-      padding: 10
-    }}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{
+        flex: 1,
+        padding: 10,
+      }}
+    >
       <NearbyDiseases />
       <Inventory />
       <Inventory />
     </ScrollView>
-  )
+  );
 }

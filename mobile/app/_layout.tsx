@@ -3,14 +3,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
-import { LogtoConfig, LogtoProvider } from "@logto/rn";
-
-const config: LogtoConfig = {
-  endpoint: "https://auth.jabed.dev/",
-  appId: "q9dargddx63xp64dxwhfi",
-};
 import {
-  useFonts,
   Outfit_100Thin,
   Outfit_200ExtraLight,
   Outfit_300Light,
@@ -20,7 +13,14 @@ import {
   Outfit_700Bold,
   Outfit_800ExtraBold,
   Outfit_900Black,
-} from '@expo-google-fonts/outfit';
+  useFonts,
+} from "@expo-google-fonts/outfit";
+import { LogtoConfig, LogtoProvider } from "@logto/rn";
+
+const config: LogtoConfig = {
+  endpoint: "https://auth.jabed.dev/",
+  appId: "q9dargddx63xp64dxwhfi",
+};
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -38,7 +38,6 @@ export default function RootLayout() {
     Outfit_900Black,
   });
 
-
   useEffect(() => {
     if (fontsLoaded) {
       SplashScreen.hideAsync();
@@ -55,4 +54,3 @@ export default function RootLayout() {
     </LogtoProvider>
   );
 }
-

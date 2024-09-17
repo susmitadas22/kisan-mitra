@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
+import { View } from "react-native";
 
 export default function Inventory() {
-    return (
-        <div>Inventory</div>
-    )
+  return <View>Inventory</View>;
 }

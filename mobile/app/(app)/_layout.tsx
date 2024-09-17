@@ -1,6 +1,10 @@
 import { DataProvider } from "@/contexts/DataContext";
 import { useLogto } from "@logto/rn";
-import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { Redirect, Stack } from "expo-router";
 import { useColorScheme } from "react-native";
 
@@ -24,5 +28,5 @@ export default function AppLayout() {
         </Stack>
       </DataProvider>
     </ThemeProvider>
-  )
+  );
 }

@@ -4,6 +4,7 @@ import { globalStyles } from "@/constants/styles";
 import { useData } from "@/contexts/DataContext";
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+
 const LANGS = [
   {
     code: "en",
@@ -22,6 +23,7 @@ const LANGS = [
     name: "Punjabi",
   },
 ];
+
 export default function Profile() {
   const { language, setLanguageToSecureStore } = useData();
   return (
