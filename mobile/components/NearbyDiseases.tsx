@@ -1,20 +1,29 @@
 import { useData } from "@/contexts/DataContext";
 import { DiseaseReponseType } from "@/types";
 import { FlashList } from "@shopify/flash-list";
-import React from "react";
-import { View } from "react-native";
+import React, { useState } from "react";
+import { ThemedCard } from "./ThemedCard";
 import { ThemedText } from "./ThemedText";
+import { FlatList, View } from "react-native";
+import { Texts } from "@/constants/texts";
 
 export default function NearbyDiseases() {
-    const { nearbyDiseases } = useData();
-    console.log(nearbyDiseases);
+    const { nearbyDiseases, language } = useData();
+    const [texts, setTexts] = useState({
+        title: Texts[language].nearbyDiseaseTitle,
+        description: Texts[language].nearbyDiseaseDescription
+    })
     return (
-        <FlashList
+        <FlatList
+            ListHeaderComponent={
+                <View style={{ marginBottom: 20 }}>
+                    <ThemedText style={{ fontSize: 18 }}>{texts.title}</ThemedText>
+                    <ThemedText>{texts.description}</ThemedText>
+                </View>}
             renderItem={({ item }) => {
                 return <Item {...item} />;
             }}
-            contentContainerStyle={{ paddingHorizontal: 10 }}
-            estimatedItemSize={100}
+            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             keyExtractor={(item) => item.id}
             data={nearbyDiseases}
         />
@@ -23,18 +32,8 @@ export default function NearbyDiseases() {
 
 const Item: React.FC<DiseaseReponseType> = (disease) => {
     return (
-        <View
-            style={{
-                borderWidth: 0.5,
-                borderColor: "#cecece",
-                borderRadius: 10,
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                marginVertical: 5,
-            }}
-        >
-            <ThemedText>{disease.disease}</ThemedText>
-            <ThemedText>{disease.cause}</ThemedText>
-        </View>
+        <ThemedCard>
+            <ThemedText>{disease.disease.replaceAll("_", " ")}</ThemedText>
+        </ThemedCard>
     );
 };

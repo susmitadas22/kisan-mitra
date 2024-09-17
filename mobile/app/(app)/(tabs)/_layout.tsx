@@ -8,7 +8,7 @@ export default function TabLayout() {
     const colorScheme = useColorScheme()
 
     return (
-        <Tabs>
+        <Tabs screenOptions={{ tabBarActiveTintColor: "white" }}>
             <Tabs.Screen
                 name="index"
                 options={{
@@ -24,6 +24,15 @@ export default function TabLayout() {
                     title: 'Scan',
                     tabBarIcon: ({ color, focused }) => (
                         <TabBarIcon name={focused ? 'scan' : 'scan-outline'} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: 'Profile',
+                    tabBarIcon: ({ color, focused }) => (
+                        <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
                     ),
                 }}
             />
