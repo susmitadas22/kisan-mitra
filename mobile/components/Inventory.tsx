@@ -1,15 +1,14 @@
 import { useData } from "@/contexts/DataContext";
-import { DiseaseReponseType } from "@/types";
+import { DiseaseReponseType, InventoryItemType } from "@/types";
 import { FlashList } from "@shopify/flash-list";
 import React, { useEffect, useState } from "react";
 import { ThemedCard } from "./ThemedCard";
 import { ThemedText } from "./ThemedText";
 import { FlatList, View } from "react-native";
 import { Texts } from "@/constants/texts";
-import Inventory from "./Inventory";
 
-export default function NearbyDiseases() {
-    const { nearbyDiseases, language } = useData();
+export default function Inventory() {
+    const { inventory, language } = useData();
     const [texts, setTexts] = useState({
         title: Texts[language].nearbyDiseaseTitle,
         description: Texts[language].nearbyDiseaseDescription
@@ -23,26 +22,23 @@ export default function NearbyDiseases() {
     }, [language])
     return (
         <FlatList
+            scrollEnabled={false}
             style={{ flexGrow: 0 }}
-            ListHeaderComponent={
-                <View style={{ marginBottom: 20 }}>
-                    <ThemedText style={{ fontSize: 18 }}>{texts.title}</ThemedText>
-                    <ThemedText>{texts.description}</ThemedText>
-                </View>}
+
             renderItem={({ item }) => {
                 return <Item {...item} />;
             }}
             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             keyExtractor={(item) => item.id}
-            data={nearbyDiseases}
+            data={inventory}
         />
     );
 }
 
-const Item: React.FC<DiseaseReponseType> = (disease) => {
+const Item: React.FC<InventoryItemType> = (item) => {
     return (
         <ThemedCard>
-            <ThemedText>{disease.disease.replaceAll("_", " ")}</ThemedText>
+            <ThemedText>{item.name}</ThemedText>
         </ThemedCard>
     );
 };

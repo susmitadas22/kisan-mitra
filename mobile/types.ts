@@ -7,3 +7,8 @@ export type DiseaseReponseType = {
     url: string
     id: string
 }
+
+export type InventoryItemType = {
+    id: string
+    name: string
+}

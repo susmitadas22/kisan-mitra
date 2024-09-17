@@ -11,7 +11,8 @@ import { Buffer } from "buffer";
 import * as ImagePicker from 'expo-image-picker';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+const height = Dimensions.get("window").height;
 
 
 
@@ -84,7 +85,7 @@ export default function Home() {
       {!image && (
         <TouchableOpacity onPress={pickImage} style={[
           globalStyles.button,
-          {position: "absolute", top: 0, left: 0, right: 0, bottom: 0}
+          { position: "absolute", top: height - 250, left: 10 }
         ]}>
           <Ionicons name="camera" size={20} />
           <Text style={globalStyles.buttonText}>Select Crop Image</Text>
@@ -109,6 +110,11 @@ export default function Home() {
           </TouchableOpacity>
         </View>
       )}
+      {
+        !result && loading && (
+          <ActivityIndicator />
+        )
+      }
       {
         result && !loading && (
           <View style={globalStyles.vertical}>

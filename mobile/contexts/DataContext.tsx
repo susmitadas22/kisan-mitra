@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import * as Location from 'expo-location';
 import Axios from "axios";
-import { DiseaseReponseType } from "@/types";
+import { DiseaseReponseType, InventoryItemType } from "@/types";
 import { useLogto } from "@logto/rn";
 import * as SecureStore from 'expo-secure-store';
 type DataProviderProps = {
@@ -12,6 +12,7 @@ type DataContextType = {
     coords: Location.LocationObjectCoords | null;
     location: Location.LocationGeocodedAddress | null;
     nearbyDiseases: DiseaseReponseType[];
+    inventory: InventoryItemType[];
     sub: string | null;
     language: "hi" | "en" | "bn" | "pn"
     setLanguageToSecureStore: (lang: "hi" | "en" | "bn" | "pn") => Promise<void>
@@ -33,6 +34,7 @@ export function DataProvider({ children }: DataProviderProps) {
     const [location, setLocation] = useState<Location.LocationGeocodedAddress | null>(null)
     const [nearbyDiseases, setNearbyDiseases] = useState<DiseaseReponseType[]>([])
     const [sub, setSub] = useState<string | null>(null)
+    const [inventory, setInventory] = useState<InventoryItemType[]>([])
     async function setLanguageToSecureStore(lang: "hi" | "en" | "bn" | "pn") {
         const language = await SecureStore.setItemAsync("language", lang);
         setLanguage(lang)
@@ -87,6 +89,11 @@ export function DataProvider({ children }: DataProviderProps) {
         }).then((res) => {
             setNearbyDiseases(res.data.body)
         })
+        Axios.post("http://192.168.232.76:3000/api/v1/inventory", {
+            sub
+        }).then((res) => {
+            setInventory(res.data.body)
+        })
 
     }, [coords])
 
@@ -97,7 +104,8 @@ export function DataProvider({ children }: DataProviderProps) {
         sub,
         language,
         setLanguage,
-        setLanguageToSecureStore
+        setLanguageToSecureStore,
+        inventory
     }
     if (!coords) return null;
     return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
