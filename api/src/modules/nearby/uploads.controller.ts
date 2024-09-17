@@ -13,6 +13,7 @@ export class NearbyController {
       ListCommand.create({
         lat: payload.lat,
         lng: payload.lng,
+        sub: payload.sub,
       }),
     );
   }
