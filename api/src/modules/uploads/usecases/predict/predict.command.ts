@@ -1,8 +1,19 @@
 import { AuthenticatedCommand } from '@shared/command';
-import { IsDefined, IsNotEmpty } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsString } from 'class-validator';
 
 export class PredictCommand extends AuthenticatedCommand {
   @IsDefined()
   @IsNotEmpty()
-  image: Express.Multer.File;
+  @IsString()
+  image: string;
+
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  size: string;
+
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  type: string;
 }

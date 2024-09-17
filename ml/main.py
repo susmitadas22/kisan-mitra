@@ -11,7 +11,7 @@ CORS(app)
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
-    image = data['image_path'] 
+    image = data['image'] 
     print(image)
     result = pipe(image)
     return jsonify(result)

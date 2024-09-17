@@ -4,7 +4,7 @@ import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { Response } from 'express';
+import { json, Response } from 'express';
 import helmet from 'helmet';
 
 async function bootstrap() {
@@ -33,6 +33,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.use(json({ limit: '50mb' }));
   app.setGlobalPrefix(globalPrefix);
   if (versionEnable) {
     app.enableVersioning({
