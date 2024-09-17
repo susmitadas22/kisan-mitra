@@ -3,10 +3,17 @@ import { ThemedText } from "@/components/ThemedText";
 import { globalStyles } from "@/constants/styles";
 import { Texts } from "@/constants/texts";
 import { useData } from "@/contexts/DataContext";
+import { Ionicons } from "@expo/vector-icons";
 import { type IdTokenClaims, useLogto } from "@logto/rn";
 import { Image } from "expo-image";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const LANGS = [
   {
@@ -34,7 +41,7 @@ const LANGS = [
 export default function Profile() {
   const { language } = useData();
   const [user, setUser] = useState<IdTokenClaims | null>(null);
-  const { getIdTokenClaims } = useLogto();
+  const { getIdTokenClaims, signOut } = useLogto();
   const [texts, setTexts] = useState({
     changeAppLanguage: Texts[language].changeAppLanguage,
     language: Texts[language].app_language,
@@ -71,10 +78,35 @@ export default function Profile() {
             source={{ uri: user?.picture || "https://via.placeholder.com/150" }}
             style={{ width: 100, height: 100, borderRadius: 50 }}
           />
-          <View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flex: 1,
+            }}
+          >
             <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>
               {user?.username}
             </ThemedText>
+            <Pressable
+              onPress={() => {
+                Alert.alert("Log out", "Are you sure you want to log out?", [
+                  {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                  {
+                    text: "Log out",
+                    onPress: async () => {
+                      await signOut();
+                    },
+                  },
+                ]);
+              }}
+            >
+              <Ionicons name="log-out" size={25} color="white" />
+            </Pressable>
           </View>
         </View>
       </View>

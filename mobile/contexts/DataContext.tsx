@@ -30,6 +30,7 @@ type DataContextType = {
   setLanguageToSecureStore: (
     lang: "hi" | "en" | "bn" | "pn" | "as"
   ) => Promise<void>;
+  weather: any;
 };
 
 Notifications.setNotificationHandler({
@@ -113,10 +114,11 @@ export function DataProvider({ children }: DataProviderProps) {
   );
   const [sub, setSub] = useState<string | null>(null);
   const [inventory, setInventory] = useState<InventoryItemType[]>([]);
+  const [weather, setWeather] = useState<any>(null);
   const [expoPushToken, setExpoPushToken] = useState("");
-  const [notification, setNotification] = useState<
-    Notifications.Notification | undefined
-  >(undefined);
+  const [_, setNotification] = useState<Notifications.Notification | undefined>(
+    undefined
+  );
 
   const notificationListener = useRef<Notifications.Subscription>();
   const responseListener = useRef<Notifications.Subscription>();
@@ -145,12 +147,11 @@ export function DataProvider({ children }: DataProviderProps) {
         Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
-  console.log(expoPushToken);
 
   async function setLanguageToSecureStore(
     lang: "hi" | "en" | "bn" | "pn" | "as"
   ) {
-    const language = await SecureStore.setItemAsync("language", lang);
+    await SecureStore.setItemAsync("language", lang);
     setLanguage(lang);
   }
   async function getLanguageFromSecureStore() {
@@ -176,17 +177,16 @@ export function DataProvider({ children }: DataProviderProps) {
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
+      await Location.requestForegroundPermissionsAsync();
       let location = await Location.getCurrentPositionAsync({});
       setCoords(location.coords);
     })();
   }, []);
 
   useEffect(() => {
-    //reverse geocode
     if (coords) {
       (async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
+        await Location.requestForegroundPermissionsAsync();
         let location = await Location.reverseGeocodeAsync(coords);
         setLocation(location[0]);
       })();
@@ -195,7 +195,6 @@ export function DataProvider({ children }: DataProviderProps) {
 
   useEffect(() => {
     if (!coords) return;
-
     Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
       lat: coords?.latitude,
       lng: coords?.longitude,
@@ -208,15 +207,21 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setInventory(res.data.body);
     });
-
     Axios.post("http://192.168.232.76:3000/api/v1/user", {
       sub,
       lat: coords?.latitude,
       lng: coords?.longitude,
       token: expoPushToken,
     }).then((res) => {
-      console.log(res.data);
       setNotification(res.data.body);
+    });
+    Axios.get("http://192.168.232.76:3000/api/v1/weather", {
+      params: {
+        lat: coords.latitude,
+        lng: coords.longitude,
+      },
+    }).then((res) => {
+      setWeather(res.data.body);
     });
   }, [coords]);
 
@@ -229,6 +234,7 @@ export function DataProvider({ children }: DataProviderProps) {
     setLanguage,
     setLanguageToSecureStore,
     inventory,
+    weather,
   };
   if (!coords) return null;
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
