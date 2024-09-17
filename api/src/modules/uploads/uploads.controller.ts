@@ -1,8 +1,13 @@
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Predict, PredictCommand } from './usecases/predict';
-@Controller('uploads')
+
+@ApiTags('Uploads')
+@Controller({
+  path: '/uploads',
+  version: '1',
+})
 export class UploadsController {
   constructor(private readonly predictUseCase: Predict) {}
 

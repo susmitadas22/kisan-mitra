@@ -1,5 +1,11 @@
 import { AuthenticatedCommand } from '@shared/command';
-import { IsDefined, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsDefined,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateCommand extends AuthenticatedCommand {
   @IsDefined()
@@ -7,5 +13,11 @@ export class CreateCommand extends AuthenticatedCommand {
   @IsString()
   name: string;
 
+  @IsOptional()
+  @IsNumber()
+  quantity?: number;
 
+  @IsOptional()
+  @IsNumber()
+  price?: number;
 }
