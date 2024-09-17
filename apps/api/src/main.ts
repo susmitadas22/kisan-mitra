@@ -10,7 +10,10 @@ import helmet from 'helmet';
 async function bootstrap() {
   const logger = new Logger('kisan mitra api');
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: true,
+    cors: {
+      origin: '*',
+      credentials: true,
+    },
   });
   const configService = app.get(ConfigService);
   const port: number = configService.get<number>('app.http.port');
