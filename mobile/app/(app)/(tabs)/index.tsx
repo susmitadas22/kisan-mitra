@@ -6,49 +6,55 @@ import { useLogto } from "@logto/rn";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import DocumentPicker, {
-  DocumentPickerResponse,
-} from "react-native-document-picker";
+import * as ImagePicker from 'expo-image-picker';
+import { Buffer } from "buffer";
+
+
 
 export default function Home() {
-  const [image, setImage] = useState<DocumentPickerResponse | null>(null);
+  const { getIdTokenClaims } = useLogto()
   const [sub, setSub] = useState<string | null>(null);
-  const { uploadImage } = useImageUpload();
-  const { getIdTokenClaims } = useLogto();
-
+  const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
+  const [buffer, setBuffer] = useState<Buffer | null>(null);
   const pickImage = async () => {
-    try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
-        mode: "import",
-        allowMultiSelection: false,
-        copyTo: "cachesDirectory",
-      });
-      setImage(res[0]);
-    } catch (err) {}
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
+
+    if (!result.canceled && result.assets[0].base64) {
+      let buffer = Buffer.from(result.assets[0].base64, 'base64');
+      setImage(result.assets[0]);
+      const buff = await uriToBuffer(result.assets[0].uri);
+      console.log(buff)
+      setBuffer(buff);
+    }
   };
+
+
+  const uriToBuffer = async (uri: string) => {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const arrayBuffer = await new Response(blob).arrayBuffer();
+    return Buffer.from(arrayBuffer);
+  };
+
+
 
   const handleUpload = async () => {
-    if (!sub) return;
-    const formData = new FormData();
-    formData.append("sub", sub);
-    if (image) {
-      formData.append("image", {
-        uri: image.uri,
-        type: image.type,
-        name: image.name,
-      });
-    }
-    try {
-      const { data } = await axios.put(
-        "http://192.168.232.76:3000/api/v1/uploads",
-        formData
-      );
-      console.log(data);
-    } catch (error: any) {
-      console.log(error.response.data);
-    }
-  };
+
+    axios.post("http://192.168.232.76:3000/api/v1/uploads", {
+      image: image?.base64,
+      sub: sub,
+      size: image?.fileSize,
+      type: image?.mimeType
+    });
+  }
+
 
   const setUser = async () => {
     const { sub } = await getIdTokenClaims();
