@@ -11,7 +11,7 @@
     "dependencies": {
         "@expo/vector-icons": "^14.0.2",
         "@logto/rn": "^0.3.0",
-        "@react-native-async-storage/async-storage": "^2.0.0",
+        "@react-native-async-storage/async-storage": "1.23.1",
         "@react-navigation/native": "^6.0.2",
         "axios": "^1.7.7",
         "expo": "~51.0.28",
