@@ -17,5 +17,10 @@ config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, "node_modules"),
   path.resolve(monorepoRoot, "node_modules"),
 ];
+config.resolver.unstable_conditionNames = [
+  'browser',
+  'require',
+  'react-native',
+]
 
 module.exports = config;
