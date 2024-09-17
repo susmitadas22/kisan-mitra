@@ -11,12 +11,14 @@ import {
 } from '@shared/interceptors';
 import { LoggingMiddleware } from '@shared/middlewares';
 import { AppController } from './app.controller';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ...MODULES,
     DatabaseModule,
     TerminusModule,
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       load: configs,
       isGlobal: true,

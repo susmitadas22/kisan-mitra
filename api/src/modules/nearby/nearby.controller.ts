@@ -1,4 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { List, ListCommand } from './usecases/list';
 
@@ -9,6 +10,11 @@ import { List, ListCommand } from './usecases/list';
 })
 export class NearbyController {
   constructor(private readonly listUseCase: List) {}
+
+  @Cron('*/10 * * * * *')
+  warn() {
+    console.log('Called when the cron job is triggered');
+  }
 
   @Post('/')
   @ApiOperation({ summary: 'Get nearby user' })
