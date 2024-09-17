@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Create, CreateCommand } from './usecases/create';
 import { Delete as DeleteItem } from './usecases/delete';
@@ -17,7 +17,7 @@ export class InventoryController {
   ) {}
 
   @ApiOperation({ summary: 'List inventory items' })
-  @Get('/')
+  @Post('/')
   list(@Body('sub') sub: string) {
     return this.listUseCase.execute(
       ListCommand.create({

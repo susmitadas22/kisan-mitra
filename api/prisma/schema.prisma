@@ -28,6 +28,6 @@ model Inventory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String
-  quantity  Int
+  quantity  Int?
   price     Float?
 }

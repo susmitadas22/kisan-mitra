@@ -10,7 +10,9 @@ export class List {
     const { sub } = command;
     return this.prismaService.inventory.findMany({
       where: {
-        sub,
+        sub: {
+          not: sub,
+        },
       },
     });
   }

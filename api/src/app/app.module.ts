@@ -4,7 +4,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TerminusModule } from '@nestjs/terminus';
-// import { DatabaseModule } from '@shared/database';
+import { DatabaseModule } from '@shared/database';
 import {
   GlobalExceptionFilter,
   ResponseInterceptor,
@@ -15,7 +15,7 @@ import { AppController } from './app.controller';
 @Module({
   imports: [
     ...MODULES,
-    // DatabaseModule,
+    DatabaseModule,
     TerminusModule,
     ConfigModule.forRoot({
       load: configs,
