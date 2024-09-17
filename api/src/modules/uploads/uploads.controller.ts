@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   ParseFilePipe,
-  Put,
+  Post,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -15,15 +15,11 @@ import { Predict, PredictCommand } from './usecases/predict';
 export class UploadsController {
   constructor(private readonly predictUseCase: Predict) {}
 
-  @Put('/')
+  @Post('/')
   @ApiOperation({ summary: 'Upload an item' })
-  @UseInterceptors(
-    FileInterceptor('image', {
-      // dest: './uploads',
-    }),
-  )
+  @UseInterceptors(FileInterceptor('buffer'))
   predict(
-    @Body() payload: { sub: string },
+    @Body() payload: any,
     @UploadedFile(
       new ParseFilePipe({
         fileIsRequired: false,
@@ -32,13 +28,15 @@ export class UploadsController {
     file: Express.Multer.File,
   ) {
     console.log({
-      file,
       payload,
+      file,
     });
     return this.predictUseCase.execute(
       PredictCommand.create({
-        image: file,
+        image: payload.image,
         sub: payload.sub,
+        size: payload.size,
+        type: payload.type,
       }),
     );
   }
