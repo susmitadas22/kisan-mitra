@@ -1,7 +1,8 @@
+import { DataProvider } from "@/contexts/DataContext";
 import { useLogto } from "@logto/rn";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { Redirect, Stack } from "expo-router";
-import { Text, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 
 export default function AppLayout() {
   const { isInitialized, isAuthenticated } = useLogto();
@@ -17,10 +18,11 @@ export default function AppLayout() {
   }
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
+      <DataProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </DataProvider>
     </ThemeProvider>
   )
 }
