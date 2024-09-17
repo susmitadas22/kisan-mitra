@@ -82,7 +82,10 @@ export default function Home() {
   return (
     <View style={globalStyles.pageWrapper}>
       {!image && (
-        <TouchableOpacity onPress={pickImage} style={globalStyles.button}>
+        <TouchableOpacity onPress={pickImage} style={[
+          globalStyles.button,
+          {position: "absolute", top: 0, left: 0, right: 0, bottom: 0}
+        ]}>
           <Ionicons name="camera" size={20} />
           <Text style={globalStyles.buttonText}>Select Crop Image</Text>
         </TouchableOpacity>
