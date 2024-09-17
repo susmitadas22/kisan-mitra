@@ -13,5 +13,9 @@ model Image {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   disease   String?
+  cure      String?
+  prevent   String?
   mimeType  String
+  lat       Float
+  lng       Float
 }
