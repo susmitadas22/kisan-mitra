@@ -1,7 +1,7 @@
 import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
-import { PrismaService } from '@shared/database';
+// import { PrismaService } from '@shared/database';
 import { Public } from '@shared/decorators';
 
 @ApiTags('app')
@@ -12,7 +12,7 @@ import { Public } from '@shared/decorators';
 export class AppController {
   constructor(
     private readonly healthCheckService: HealthCheckService,
-    private readonly prismaService: PrismaService,
+    // private readonly prismaService: PrismaService,
   ) {}
 
   @ApiOperation({
@@ -23,6 +23,6 @@ export class AppController {
   @HealthCheck()
   @Get('/health')
   public async getHealth() {
-    return this.healthCheckService.check([() => this.prismaService.healthy()]);
+    // return this.healthCheckService.check([() => this.prismaService.healthy()]);
   }
 }

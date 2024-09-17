@@ -2,8 +2,8 @@ services:
   database:
     image: postgres:15-alpine
     environment:
-      DATABASE_USER: "jabed"
-      DATABASE_PASSWORD: "jabed"
-      DATABASE_NAME: "jabed"
+      POSTGRES_USER: "jabed"
+      POSTGRES_PASSWORD: "jabed"
+      POSTGRES_NAME: "jabed"
     ports:
       - "5432:5432"
