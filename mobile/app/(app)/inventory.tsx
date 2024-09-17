@@ -1,3 +1,4 @@
+import { ThemedCard } from "@/components/ThemedCard";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/colors";
@@ -5,10 +6,13 @@ import { Texts } from "@/constants/texts";
 import { useData } from "@/contexts/DataContext";
 import { useBottomSheetModal } from "@/hooks/useBottomSheetModal";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { InventoryItemType } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { FlashList } from "@shopify/flash-list";
+import { Image } from "expo-image";
 import { Stack } from "expo-router";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
@@ -16,10 +20,12 @@ export default function Inventory() {
   const { language, inventory } = useData();
   const [texts, setTexts] = useState({
     Inventory: Texts[language].Inventory,
+    description: Texts[language].yourInventory,
   });
   useEffect(() => {
     setTexts({
       Inventory: Texts[language].Inventory,
+      description: Texts[language].yourInventory,
     });
   }, [language]);
   const { closeModal, modalRef, modalSnapPoints, openModal, renderBackdrop } =
@@ -42,18 +48,29 @@ export default function Inventory() {
           flex: 1,
         }}
       >
-        <ThemedText>
-          You can add your inventory items here. This is a sample text.
-        </ThemedText>
         <FlashList
+          contentContainerStyle={{
+            padding: 10,
+          }}
+          ListHeaderComponent={
+            <View
+              style={{
+                marginVertical: 10,
+              }}
+            >
+              <ThemedText style={{ fontSize: 18 }}>
+                {texts.Inventory}
+              </ThemedText>
+              <ThemedText style={{ fontSize: 14 }}>
+                {texts.description}
+              </ThemedText>
+            </View>
+          }
           data={inventory}
           estimatedItemSize={50}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={openModal}>
-              <ThemedText>{item.name}</ThemedText>
-            </TouchableOpacity>
-          )}
+          renderItem={({ item }) => <Item {...item} />}
           keyExtractor={(item) => item.id}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         />
         <TouchableOpacity
           onPress={openModal}
@@ -92,11 +109,7 @@ export default function Inventory() {
                 padding: 10,
               }}
             >
-              <ThemedText>Inventory Item 1</ThemedText>
-              <ThemedText>Inventory Item 2</ThemedText>
-              <ThemedText>Inventory Item 3</ThemedText>
-              <ThemedText>Inventory Item 4</ThemedText>
-              <ThemedText>Inventory Item 5</ThemedText>
+              <ThemedText>Create</ThemedText>
             </ThemedView>
           </BottomSheetScrollView>
         </BottomSheetModal>
@@ -104,3 +117,65 @@ export default function Inventory() {
     </>
   );
 }
+
+const Item: React.FC<InventoryItemType> = (item) => {
+  return (
+    <ThemedCard
+      style={{
+        flexDirection: "row",
+      }}
+    >
+      <View
+        style={{
+          width: "60%",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <View>
+          <ThemedText
+            style={{
+              maxWidth: "100%",
+            }}
+          >
+            {item.name}
+          </ThemedText>
+          <ThemedText
+            style={{
+              maxWidth: "100%",
+              fontSize: 12,
+            }}
+          >
+            logged {moment(item.createdAt).format("DD/MM/YYYY")}
+          </ThemedText>
+        </View>
+        {/* <View>
+          {coords && (
+            <ThemedText
+              style={{
+                maxWidth: "100%",
+                fontSize: 12,
+              }}
+            >
+              {/* {getDistance(
+                coords.latitude,
+                coords.longitude,
+                disease.lat,
+                disease.lng
+              ).toFixed(2)}{" "}
+              {texts.away} */}
+        {/* </ThemedText> */}
+        {/* )} */}
+        {/* </View> */}
+      </View>
+      <Image
+        source={{ uri: item.image_url || "https://via.placeholder.com/150" }}
+        style={{
+          width: "40%",
+          height: 150,
+        }}
+        key={item.id}
+      />
+    </ThemedCard>
+  );
+};

@@ -31,6 +31,8 @@ model Inventory {
   quantity  Int?
   shared    Boolean?
   price     Float?
+  image_url String?
+  expose    Boolean  @default(false)
 }
 
 model User {

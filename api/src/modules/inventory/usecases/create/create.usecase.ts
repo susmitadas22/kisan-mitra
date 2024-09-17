@@ -14,6 +14,7 @@ export class Create {
         price,
         quantity,
         sub,
+        image_url: 'https://via.placeholder.com/150',
       },
     });
   }
