@@ -1,5 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import * as Location from 'expo-location';
+import Axios from "axios";
+import { DiseaseReponseType } from "@/types";
 type DataProviderProps = {
     children: ReactNode;
 };
@@ -7,6 +9,7 @@ type DataProviderProps = {
 type DataContextType = {
     coords: Location.LocationObjectCoords | null;
     location: Location.LocationGeocodedAddress | null;
+    nearbyDiseases: DiseaseReponseType[]
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -22,6 +25,7 @@ export function useData() {
 export function DataProvider({ children }: DataProviderProps) {
     const [coords, setCoords] = useState<Location.LocationObjectCoords | null>(null)
     const [location, setLocation] = useState<Location.LocationGeocodedAddress | null>(null)
+    const [nearbyDiseases, setNearbyDiseases] = useState<DiseaseReponseType[]>([])
 
     useEffect(() => {
         (async () => {
@@ -42,9 +46,22 @@ export function DataProvider({ children }: DataProviderProps) {
         }
     }, [coords]);
 
+    useEffect(() => {
+        if (!coords) return;
+
+        Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
+            lat: coords?.latitude,
+            lng: coords?.longitude
+        }).then((res) => {
+            setNearbyDiseases(res.data.body)
+        })
+
+    }, [coords])
+
     const value = {
         coords,
-        location
+        location,
+        nearbyDiseases
     }
     if (!coords) return null;
     return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
