@@ -1,44 +1,53 @@
+import { Texts } from "@/constants/texts";
 import { useData } from "@/contexts/DataContext";
-import { DiseaseReponseType, InventoryItemType } from "@/types";
-import { FlashList } from "@shopify/flash-list";
+import { InventoryItemType } from "@/types";
 import React, { useEffect, useState } from "react";
+import { FlatList, View } from "react-native";
 import { ThemedCard } from "./ThemedCard";
 import { ThemedText } from "./ThemedText";
-import { FlatList, View } from "react-native";
-import { Texts } from "@/constants/texts";
 
 export default function Inventory() {
-    const { inventory, language } = useData();
-    const [texts, setTexts] = useState({
-        title: Texts[language].nearbyDiseaseTitle,
-        description: Texts[language].nearbyDiseaseDescription
-    })
-    useEffect(() => {
-        setTexts({
-            title: Texts[language].nearbyDiseaseTitle,
-            description: Texts[language].nearbyDiseaseDescription
-        })
-
-    }, [language])
-    return (
-        <FlatList
-            scrollEnabled={false}
-            style={{ flexGrow: 0 }}
-
-            renderItem={({ item }) => {
-                return <Item {...item} />;
-            }}
-            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-            keyExtractor={(item) => item.id}
-            data={inventory}
-        />
-    );
+  const { inventory, language } = useData();
+  const [texts, setTexts] = useState({
+    title: Texts[language].nearbyDiseaseTitle,
+    description: Texts[language].nearbyDiseaseDescription,
+  });
+  useEffect(() => {
+    setTexts({
+      title: Texts[language].nearbyDiseaseTitle,
+      description: Texts[language].nearbyDiseaseDescription,
+    });
+  }, [language]);
+  return (
+    <FlatList
+      scrollEnabled={false}
+      contentContainerStyle={{
+        padding: 10,
+      }}
+      ListHeaderComponent={() => (
+        <View
+          style={{
+            marginVertical: 10,
+          }}
+        >
+          <ThemedText>{texts.title}</ThemedText>
+          <ThemedText>{texts.description}</ThemedText>
+        </View>
+      )}
+      renderItem={({ item }) => {
+        return <Item {...item} />;
+      }}
+      ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      keyExtractor={(item) => item.id}
+      data={inventory}
+    />
+  );
 }
 
 const Item: React.FC<InventoryItemType> = (item) => {
-    return (
-        <ThemedCard>
-            <ThemedText>{item.name}</ThemedText>
-        </ThemedCard>
-    );
+  return (
+    <ThemedCard>
+      <ThemedText>{item.name}</ThemedText>
+    </ThemedCard>
+  );
 };

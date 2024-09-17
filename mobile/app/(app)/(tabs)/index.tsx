@@ -1,21 +1,17 @@
 import Inventory from "@/components/Inventory";
 import NearbyDiseases from "@/components/NearbyDiseases";
-import { globalStyles } from "@/constants/styles";
 import React from "react";
-import { ScrollView, View } from "react-native";
+
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+const Tab = createMaterialTopTabNavigator();
 
 export default function Explore() {
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{
-        flex: 1,
-        padding: 10,
-      }}
-    >
-      <NearbyDiseases />
-      <Inventory />
-      <Inventory />
-    </ScrollView>
+  
+    <Tab.Navigator>
+      <Tab.Screen name="Nearby Diseases" component={NearbyDiseases} />
+      <Tab.Screen name="Inventory" component={Inventory} />
+    </Tab.Navigator>
   );
 }
