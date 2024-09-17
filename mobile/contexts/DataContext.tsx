@@ -33,6 +33,8 @@ type DataContextType = {
   ) => Promise<void>;
   weather: any;
   diseases: DiseaseReponseType[];
+  refresh: () => void;
+  refreshing: boolean;
 };
 
 Notifications.setNotificationHandler({
@@ -106,6 +108,7 @@ export function DataProvider({ children }: DataProviderProps) {
   const [coords, setCoords] = useState<Location.LocationObjectCoords | null>(
     null
   );
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [language, setLanguage] = useState<"hi" | "en" | "bn" | "pn" | "as">(
     "en"
   );
@@ -232,20 +235,69 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setNotification(res.data.body);
     });
-    Axios.get("http://192.168.232.76:3000/api/v1/weather", {
-      params: {
-        lat: coords.latitude,
-        lng: coords.longitude,
-      },
-    }).then((res) => {
-      setWeather(res.data.body);
-    });
+    // Axios.get("http://192.168.232.76:3000/api/v1/weather", {
+    //   params: {
+    //     lat: coords.latitude,
+    //     lng: coords.longitude,
+    //   },
+    // }).then((res) => {
+    //   setWeather(res.data.body);
+    // });
     Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore").then(
       (res) => {
         setSharedInventory(res.data.body);
       }
     );
   }, [coords]);
+  const refresh = () => {
+    setRefreshing(true);
+    if (!coords) return;
+    Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
+      lat: coords?.latitude,
+      lng: coords?.longitude,
+      sub,
+      mine: false,
+    }).then((res) => {
+      setNearbyDiseases(res.data.body);
+    });
+    Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
+      lat: coords?.latitude,
+      lng: coords?.longitude,
+      sub,
+      mine: true,
+    }).then((res) => {
+      setDiseases(res.data.body);
+    });
+    Axios.get("http://192.168.232.76:3000/api/v1/inventory", {
+      params: {
+        sub,
+      },
+    }).then((res) => {
+      setInventory(res.data.body);
+    });
+    Axios.post("http://192.168.232.76:3000/api/v1/user", {
+      sub,
+      lat: coords?.latitude,
+      lng: coords?.longitude,
+      token: expoPushToken,
+    }).then((res) => {
+      setNotification(res.data.body);
+    });
+    // Axios.get("http://192.168.232.76:3000/api/v1/weather", {
+    //   params: {
+    //     lat: coords.latitude,
+    //     lng: coords.longitude,
+    //   },
+    // }).then((res) => {
+    //   setWeather(res.data.body);
+    // });
+    Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore").then(
+      (res) => {
+        setSharedInventory(res.data.body);
+      }
+    );
+    setRefreshing(false);
+  };
 
   const value = {
     coords,
@@ -259,6 +311,8 @@ export function DataProvider({ children }: DataProviderProps) {
     weather,
     sharedInventory,
     diseases,
+    refresh,
+    refreshing,
   };
   if (!coords) return null;
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
