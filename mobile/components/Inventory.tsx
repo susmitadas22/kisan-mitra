@@ -9,13 +9,13 @@ import { ThemedText } from "./ThemedText";
 export default function Inventory() {
   const { inventory, language } = useData();
   const [texts, setTexts] = useState({
-    title: Texts[language].nearbyDiseaseTitle,
-    description: Texts[language].nearbyDiseaseDescription,
+    title: Texts[language].sharedInventory,
+    description: Texts[language].sharedInventoryDescription,
   });
   useEffect(() => {
     setTexts({
-      title: Texts[language].nearbyDiseaseTitle,
-      description: Texts[language].nearbyDiseaseDescription,
+      title: Texts[language].sharedInventory,
+      description: Texts[language].sharedInventoryDescription,
     });
   }, [language]);
   return (
@@ -30,8 +30,8 @@ export default function Inventory() {
             marginVertical: 10,
           }}
         >
-          <ThemedText>{texts.title}</ThemedText>
-          <ThemedText>{texts.description}</ThemedText>
+          <ThemedText style={{ fontSize: 18 }}>{texts.title}</ThemedText>
+          <ThemedText style={{ fontSize: 14 }}>{texts.description}</ThemedText>
         </View>
       )}
       renderItem={({ item }) => {
