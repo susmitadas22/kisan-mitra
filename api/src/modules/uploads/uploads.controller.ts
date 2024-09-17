@@ -8,18 +8,18 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-// import { Create, CreateCommand } from './usecases/create';
+import { Predict, PredictCommand } from './usecases/predict';
 
 @ApiTags('uploads')
 @Controller('uploads')
 export class UploadsController {
-  constructor() {}
+  constructor(private readonly predictUseCase: Predict) {}
 
   @Put('/')
   @ApiOperation({ summary: 'Upload an item' })
   @UseInterceptors(FileInterceptor('image'))
-  create(
-    @Body() payload: any,
+  predict(
+    @Body() payload: { sub: string },
     @UploadedFile(
       new ParseFilePipe({
         fileIsRequired: false,
@@ -27,17 +27,15 @@ export class UploadsController {
     )
     file: Express.Multer.File,
   ) {
-    // return this.createUseCase.execute(
-    //   CreateCommand.create({
-    //     ...payload,
-    //     shop_Id: user.shop,
-    //     user_Id: user.sub,
-    //     image: file,
-    //   }),
-    // );
-    console.log({ payload, file });
-    return {
-      message: 'success',
-    };
+    console.log({
+      file,
+      payload,
+    });
+    return this.predictUseCase.execute(
+      PredictCommand.create({
+        image: file,
+        sub: payload.sub,
+      }),
+    );
   }
 }

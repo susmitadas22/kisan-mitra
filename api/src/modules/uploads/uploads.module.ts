@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from '@shared/database';
 import { UploadsController } from './uploads.controller';
-// import { USE_CASES } from './usecases';
+import { USE_CASES } from './usecases';
 
 @Module({
-  providers: [PrismaService],
+  providers: [PrismaService, ...USE_CASES],
   controllers: [UploadsController],
-  exports: [],
+  exports: [...USE_CASES],
 })
 export class UploadsModule {}

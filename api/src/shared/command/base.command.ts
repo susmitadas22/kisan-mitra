@@ -1,6 +1,6 @@
+import { flatten } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
-import { BadRequestException, flatten } from '@nestjs/common';
 
 export abstract class BaseCommand {
   static create<T extends BaseCommand>(
@@ -17,10 +17,7 @@ export abstract class BaseCommand {
       const mappedErrors = flatten(
         errors.map((item) => Object.values(item.constraints ?? {})),
       );
-
-      throw new BadRequestException(
-        `Validation failed: ${mappedErrors.join(', ')!}`,
-      );
+      console.log(mappedErrors);
     }
 
     return convertedObject;
