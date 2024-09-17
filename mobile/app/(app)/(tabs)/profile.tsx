@@ -80,7 +80,7 @@ export default function Profile() {
       </View>
       <ThemedCard>
         <View style={{ marginBottom: 20 }}>
-          <ThemedText style={{ fontSize: 15, textTransform: "uppercase" }}>
+          <ThemedText style={{ fontSize: 15 }}>
             {texts.changeAppLanguage}
           </ThemedText>
         </View>
@@ -96,17 +96,6 @@ export default function Profile() {
           })}
         </View>
       </ThemedCard>
-      {/* <FlatList
-                horizontal
-                ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-                renderItem={({ item }) => {
-                    return <Item
-                        isCurrent={language === item.code}
-                        {...item} />;
-                }}
-                keyExtractor={(item) => item.code}
-                data={LANGS}
-            /> */}
     </View>
   );
 }

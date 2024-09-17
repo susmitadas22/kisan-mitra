@@ -12,12 +12,14 @@ export default function TabLayout() {
   const [texts, setTexts] = useState({
     Explore: Texts[language].Explore,
     Scan: Texts[language].Scan,
+    Weather: Texts[language].Weather,
     Profile: Texts[language].Profile,
   });
   useEffect(() => {
     setTexts({
       Explore: Texts[language].Explore,
       Scan: Texts[language].Scan,
+      Weather: Texts[language].Weather,
       Profile: Texts[language].Profile,
     });
   }, [language]);
@@ -42,6 +44,18 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "scan" : "scan-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="weather"
+        options={{
+          title: texts.Weather,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "sunny" : "sunny-outline"}
               color={color}
             />
           ),
