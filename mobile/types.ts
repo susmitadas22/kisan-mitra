@@ -16,4 +16,10 @@ export type DiseaseReponseType = {
 export type InventoryItemType = {
   id: string;
   name: string;
+  price: number;
+  quantity: number;
+  sub: string;
+  image_url: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

@@ -15,6 +15,7 @@ export const Texts = {
     Inventory: "Inventory",
     changeAppLanguage: "Change App Language",
     app_language: "English",
+    yourInventory: "Your Inventory",
   },
   hi: {
     nearbyDiseaseTitle: "आपके आस-पास के पौधों के रोग",
@@ -32,6 +33,7 @@ export const Texts = {
     Inventory: "इन्वेंटरी",
     changeAppLanguage: "ऐप भाषा बदलें",
     app_language: "हिंदी",
+    yourInventory: "आपकी इन्वेंटरी",
   },
   pn: {
     nearbyDiseaseTitle: "તમારા નજીકના રોગ",
@@ -48,6 +50,7 @@ export const Texts = {
     Inventory: "ਇੰਵੈਂਟਰੀ",
     changeAppLanguage: "ਐਪ ਭਾਸ਼ਾ ਬਦਲੋ",
     app_language: "ਪੰਜਾਬੀ",
+    yourInventory: "ਤੁਹਾਡੀ ਇੰਵੈਂਟਰੀ",
   },
   bn: {
     nearbyDiseaseTitle: "আপনার কাছাকাছি উদ্ভিদ রোগ",
@@ -65,6 +68,7 @@ export const Texts = {
     Inventory: "ইনভেন্টরি",
     changeAppLanguage: "অ্যাপ ভাষা পরিবর্তন করুন",
     app_language: "বাংলা",
+    yourInventory: "আপনার ইনভেন্টরি",
   },
   as: {
     nearbyDiseaseTitle: "আপোনাৰ পাছত উদ্ভিদৰ ৰোগ",
@@ -83,5 +87,6 @@ export const Texts = {
     changeAppLanguage: "এপ ভাষা সলনি কৰক",
     app_language: "অসমীয়া",
     accountCreatedOn: "একাউণ্ট তৈয়াৰ কৰা হৈছে",
+    yourInventory: "আপোনাৰ ইনভেণ্টৰী",
   },
 };
