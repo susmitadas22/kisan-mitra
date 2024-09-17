@@ -13,6 +13,9 @@ export class List {
         where: {
           sub,
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
     } else {
       const nearby = await this.prismaService.image.findMany({

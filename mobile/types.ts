@@ -22,4 +22,5 @@ export type InventoryItemType = {
   image_url: string;
   createdAt: Date;
   updatedAt: Date;
+  shared: boolean;
 };

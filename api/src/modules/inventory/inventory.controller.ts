@@ -1,5 +1,14 @@
-import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { PrismaService } from '@shared/database';
 import { Create, CreateCommand } from './usecases/create';
 import { Delete as DeleteItem } from './usecases/delete';
 import { List, ListCommand } from './usecases/list';
@@ -16,10 +25,11 @@ export class InventoryController {
     private readonly deleteUseCase: DeleteItem,
     private readonly createUseCase: Create,
     private readonly mineUseCase: Mine,
+    private readonly prismaService: PrismaService,
   ) {}
 
   @ApiOperation({ summary: 'List inventory items' })
-  @Get('/')
+  @Get('/explore')
   list(@Query('sub') sub: string) {
     return this.listUseCase.execute(
       ListCommand.create({
@@ -29,7 +39,7 @@ export class InventoryController {
   }
 
   @ApiOperation({ summary: 'List shared inventory items' })
-  @Get('/explore')
+  @Get('/')
   my(@Query('sub') sub: string) {
     return this.mineUseCase.execute(
       MineCommand.create({
@@ -49,6 +59,7 @@ export class InventoryController {
       sub: string;
     },
   ) {
+    console.log(payload);
     return this.createUseCase.execute(
       CreateCommand.create({
         name: payload.name,
@@ -65,6 +76,24 @@ export class InventoryController {
     return this.deleteUseCase.execute({
       id,
       sub,
+    });
+  }
+
+  @ApiOperation({ summary: 'Make an inventory item shared/unshared' })
+  @Patch('/shared')
+  async shared(@Body('id') id: string) {
+    const item = await this.prismaService.inventory.findUnique({
+      where: {
+        id,
+      },
+    });
+    return this.prismaService.inventory.update({
+      where: {
+        id,
+      },
+      data: {
+        shared: !item.shared,
+      },
     });
   }
 }

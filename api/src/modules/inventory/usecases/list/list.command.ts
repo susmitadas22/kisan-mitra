@@ -13,6 +13,7 @@ export class List {
         sub: {
           not: sub,
         },
+        shared: false,
       },
     });
   }

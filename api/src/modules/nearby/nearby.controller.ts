@@ -18,6 +18,7 @@ export class NearbyController {
         lat: payload.lat,
         lng: payload.lng,
         sub: payload.sub,
+        mine: payload.mine,
       }),
     );
   }
