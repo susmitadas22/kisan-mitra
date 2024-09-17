@@ -41,6 +41,9 @@ export class List {
           lte: lng + 0.1, // 0.1 is 10km
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
     return nearby;
   }

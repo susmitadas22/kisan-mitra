@@ -124,7 +124,7 @@ export default function Home() {
       {result && !loading && (
         <View style={globalStyles.vertical}>
           <ThemedText>
-            Disease Name: {result.disease.replaceAll("_", " ")}
+            Disease Name: {result?.disease?.replaceAll("_", " ")}
           </ThemedText>
           <ThemedText>Disease Cause: {result.cause}</ThemedText>
           <ThemedText>Disease Cure: {result.cure}</ThemedText>
