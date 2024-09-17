@@ -30,6 +30,5 @@ model Inventory {
   name      String
   quantity  Int
   price     Float
-  image     String
   image_url String
 }
