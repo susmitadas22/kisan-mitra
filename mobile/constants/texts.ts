@@ -1,18 +1,62 @@
 export const Texts = {
-    "en": {
-        nearbyDiseaseTitle: "Nearby Diseases To You",
-        nearbyDiseaseDescription: "Here is a list of diseases affecting farmers nearby, take timely precautions",
-    },
-    "hi": {
-        nearbyDiseaseTitle: "आपके आस-पास के पौधों के रोग",
-        nearbyDiseaseDescription: "यहां आस-पास के किसानों को प्रभावित करने वाली बीमारियों की सूची दी गई है, समय रहते सावधानी बरतें",
-    },
-    "pn": {
-        nearbyDiseaseTitle: "Nearby Diseases",
-        nearbyDiseaseDescription: "ਨੇਟਿਵ ਸੂਚੀ ਦੇ ਲਈ ਕਾਰਡ ਹੈ",
-    },
-    "bn": {
-        nearbyDiseaseTitle: "আপনার কাছাকাছি উদ্ভিদ রোগ",
-        nearbyDiseaseDescription: "এখানে আশেপাশের কৃষকদের প্রভাবিত রোগের একটি তালিকা রয়েছে, সময়মত সতর্কতা অবলম্বন করুন",
-    },
-}
+  en: {
+    nearbyDiseaseTitle: "Nearby Diseases To You",
+    nearbyDiseaseDescription:
+      "Here is a list of diseases affecting farmers nearby, take timely precautions",
+    away: "Km away",
+    more: "more",
+    Explore: "Explore",
+    Scan: "Scan",
+    Profile: "Profile",
+    changeAppLanguage: "Change App Language",
+    app_language: "English",
+  },
+  hi: {
+    nearbyDiseaseTitle: "आपके आस-पास के पौधों के रोग",
+    nearbyDiseaseDescription:
+      "यहां आस-पास के किसानों को प्रभावित करने वाली बीमारियों की सूची दी गई है, समय रहते सावधानी बरतें",
+    away: "किमी दूर",
+    more: "और पढ़ें",
+    Explore: "अन्वेषण",
+    Scan: "स्कैन",
+    Profile: "प्रोफ़ाइल",
+    changeAppLanguage: "ऐप भाषा बदलें",
+    app_language: "हिंदी",
+  },
+  pn: {
+    nearbyDiseaseTitle: "તમારા નજીકના રોગ",
+    nearbyDiseaseDescription: "ਨੇਟਿਵ ਸੂਚੀ ਦੇ ਲਈ ਕਾਰਡ ਹੈ",
+    away: "ਕਿਮੀ ਦੂਰ",
+    more: "ਹੋਰ ਪੜ੍ਹੋ",
+    Explore: "ਖੋਜੋ",
+    Scan: "ਸਕੈਨ",
+    Profile: "ਪ੍ਰੋਫਾਈਲ",
+    changeAppLanguage: "ਐਪ ਭਾਸ਼ਾ ਬਦਲੋ",
+    app_language: "ਪੰਜਾਬੀ",
+  },
+  bn: {
+    nearbyDiseaseTitle: "আপনার কাছাকাছি উদ্ভিদ রোগ",
+    nearbyDiseaseDescription:
+      "এখানে আশেপাশের কৃষকদের প্রভাবিত রোগের একটি তালিকা রয়েছে, সময়মত সতর্কতা অবলম্বন করুন",
+    away: "কিমি দূরে",
+    more: "আরও পড়ুন",
+    Explore: "অন্বেষণ",
+    Scan: "স্ক্যান",
+    Profile: "প্রোফাইল",
+    changeAppLanguage: "অ্যাপ ভাষা পরিবর্তন করুন",
+    app_language: "বাংলা",
+  },
+  as: {
+    nearbyDiseaseTitle: "আপোনাৰ পাছত উদ্ভিদৰ ৰোগ",
+    nearbyDiseaseDescription:
+      "এতিয়ালৈ আপোনাৰ পাছতৰ কিষানসকলৰ প্ৰভাৱিত ৰোগৰ তালিকা দিয়া হৈছে, সময়ত সাবধানি কৰক",
+    away: "কিমি দূৰত",
+    more: "অধিক পঢ়ক",
+    Explore: "অন্বেষণ",
+    Scan: "স্কেন",
+    Profile: "প্ৰ'ফাইল",
+    changeAppLanguage: "এপ ভাষা সলনি কৰক",
+    app_language: "অসমীয়া",
+    accountCreatedOn: "একাউণ্ট তৈয়াৰ কৰা হৈছে",
+  },
+};

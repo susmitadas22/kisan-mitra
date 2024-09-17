@@ -1,8 +1,11 @@
 import { ThemedCard } from "@/components/ThemedCard";
 import { ThemedText } from "@/components/ThemedText";
 import { globalStyles } from "@/constants/styles";
+import { Texts } from "@/constants/texts";
 import { useData } from "@/contexts/DataContext";
-import React from "react";
+import { type IdTokenClaims, useLogto } from "@logto/rn";
+import { Image } from "expo-image";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 const LANGS = [
@@ -12,26 +15,73 @@ const LANGS = [
   },
   {
     code: "hi",
-    name: "Hindi",
+    name: "हिंदी",
   },
   {
     code: "bn",
-    name: "Bengali",
+    name: "বাংলা",
   },
   {
     code: "pn",
-    name: "Punjabi",
+    name: "ਪੰਜਾਬੀ",
+  },
+  {
+    code: "as",
+    name: "অসমীয়া",
   },
 ];
 
 export default function Profile() {
-  const { language, setLanguageToSecureStore } = useData();
+  const { language } = useData();
+  const [user, setUser] = useState<IdTokenClaims | null>(null);
+  const { getIdTokenClaims } = useLogto();
+  const [texts, setTexts] = useState({
+    changeAppLanguage: Texts[language].changeAppLanguage,
+    language: Texts[language].app_language,
+  });
+  useEffect(() => {
+    const fetchUser = async () => {
+      const claims = await getIdTokenClaims();
+      setUser(claims);
+    };
+    fetchUser();
+  }, []);
+  useEffect(() => {
+    setTexts({
+      changeAppLanguage: Texts[language].changeAppLanguage,
+      language: Texts[language].app_language,
+    });
+  }, [language]);
+  if (!user) return null;
   return (
     <View style={globalStyles.pageWrapper}>
+      <View
+        style={{
+          marginVertical: 10,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <Image
+            source={{ uri: user?.picture || "https://via.placeholder.com/150" }}
+            style={{ width: 100, height: 100, borderRadius: 50 }}
+          />
+          <View>
+            <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>
+              {user?.username}
+            </ThemedText>
+          </View>
+        </View>
+      </View>
       <ThemedCard>
         <View style={{ marginBottom: 20 }}>
           <ThemedText style={{ fontSize: 15, textTransform: "uppercase" }}>
-            Change App Language
+            {texts.changeAppLanguage}
           </ThemedText>
         </View>
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>

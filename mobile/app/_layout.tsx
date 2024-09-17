@@ -15,14 +15,15 @@ import {
   Outfit_900Black,
   useFonts,
 } from "@expo-google-fonts/outfit";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { LogtoConfig, LogtoProvider } from "@logto/rn";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const config: LogtoConfig = {
   endpoint: "https://auth.jabed.dev/",
   appId: "q9dargddx63xp64dxwhfi",
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -50,7 +51,11 @@ export default function RootLayout() {
 
   return (
     <LogtoProvider config={config}>
-      <Slot />
+      <GestureHandlerRootView>
+        <BottomSheetModalProvider>
+          <Slot />
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </LogtoProvider>
   );
 }
