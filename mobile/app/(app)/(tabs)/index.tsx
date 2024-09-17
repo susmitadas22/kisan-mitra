@@ -85,33 +85,25 @@ export default function Home() {
           <Text style={globalStyles.buttonText}>Select Crop Image</Text>
         </TouchableOpacity>
       )}
+      {
+        image &&
+        <Image source={{ uri: image.uri }} style={styles.image} />
+      }
 
       {image && (
-        <View style={globalStyles.horizontal}>
-          <Image source={{ uri: image.uri }} style={styles.image} />
-          <TouchableOpacity style={globalStyles.button} onPress={handleUpload}>
-            <Text style={globalStyles.buttonText}>Upload</Text>
+        <View style={{ display: "flex", flexDirection: "column", marginVertical: 10 }}>
+
+          <View style={globalStyles.horizontal}>
+            <TouchableOpacity style={globalStyles.button} onPress={handleUpload}>
+              <Text style={globalStyles.buttonText}>Upload</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity onPress={clear} style={globalStyles.mutedButton}>
+            <Text style={globalStyles.mutedButtonText}>Clear</Text>
           </TouchableOpacity>
         </View>
       )}
-      {image && (
-        <TouchableOpacity onPress={clear} style={globalStyles.mutedButton}>
-          <Text style={globalStyles.mutedButtonText}>Clear</Text>
-        </TouchableOpacity>
-      )}
-      {
-        loading &&
-        <LottieView
-          autoPlay
-          style={{
-            width: 200,
-            height: 200,
-            backgroundColor: '#eee',
-          }}
-          // Find more Lottie files at https://lottiefiles.com/featured
-          source={require('../../../assets/animations/12345.json')}
-        />
-      }
       {
         result && !loading && (
           <View style={globalStyles.vertical}>
