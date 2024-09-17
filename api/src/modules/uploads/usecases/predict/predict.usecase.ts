@@ -7,6 +7,7 @@ import { PrismaService } from '@shared/database';
 import { generateText } from 'ai';
 import axios from 'axios';
 import { PredictCommand } from './predict.command';
+import { Expo } from 'expo-server-sdk';
 
 type Prediction = {
   label: string;
@@ -136,6 +137,43 @@ export class Predict {
           preventions: preventions.text,
         },
       });
+      const nearby = await this.prismaService.user.findMany({
+        where: {
+          lat: {
+            gte: lat - 0.1,
+            lte: lat + 0.1,
+          },
+          lng: {
+            gte: lng - 0.1,
+            lte: lng + 0.1,
+          },
+        },
+      });
+      const tokens = nearby.map((user) => user.device_token);
+      const expo = new Expo({
+        useFcmV1: true,
+      });
+      const messages = [];
+      for (const pushToken of tokens) {
+        if (!Expo.isExpoPushToken(pushToken)) {
+          console.error(
+            `Push token ${pushToken} is not a valid Expo push token`,
+          );
+          continue;
+        }
+        messages.push({
+          to: pushToken,
+          sound: 'default',
+          body: 'This is a test notification',
+          data: { withSome: 'data' },
+        });
+      }
+      try {
+        const data = await expo.sendPushNotificationsAsync(messages);
+        console.log(data);
+      } catch (error: any) {
+        console.error(error);
+      }
       return {
         id,
         url,
