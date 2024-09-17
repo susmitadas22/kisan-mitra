@@ -1,21 +1,26 @@
-import LocationComponent from "@/components/Location";
+import { ThemedText } from "@/components/ThemedText";
 import { globalStyles } from "@/constants/styles";
-import useImageUpload from "@/hooks/useImageUpload";
+import { useData } from "@/contexts/DataContext";
+import { DiseaseReponseType } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { useLogto } from "@logto/rn";
 import axios from "axios";
+import { Buffer } from "buffer";
+import * as ImagePicker from 'expo-image-picker';
+import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
-import { Buffer } from "buffer";
 
 
 
 export default function Home() {
+  const { coords } = useData()
   const { getIdTokenClaims } = useLogto()
   const [sub, setSub] = useState<string | null>(null);
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const [buffer, setBuffer] = useState<Buffer | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<DiseaseReponseType | null>(null)
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -30,7 +35,6 @@ export default function Home() {
       let buffer = Buffer.from(result.assets[0].base64, 'base64');
       setImage(result.assets[0]);
       const buff = await uriToBuffer(result.assets[0].uri);
-      console.log(buff)
       setBuffer(buff);
     }
   };
@@ -46,13 +50,23 @@ export default function Home() {
 
 
   const handleUpload = async () => {
+    setLoading(true)
 
-    axios.post("http://192.168.232.76:3000/api/v1/uploads", {
+    const { data } = await axios.post("http://192.168.232.76:3000/api/v1/uploads", {
       image: image?.base64,
       sub: sub,
-      size: image?.fileSize,
-      type: image?.mimeType
+      size: image?.fileSize?.toString(),
+      type: image?.mimeType,
+      coords: coords
     });
+    setLoading(false)
+    setResult(data.body)
+    console.log(data.body)
+  }
+  const clear = () => {
+    setLoading(false)
+    setResult(null)
+    setImage(null)
   }
 
 
@@ -65,13 +79,13 @@ export default function Home() {
   }, []);
   return (
     <View style={globalStyles.pageWrapper}>
-      <LocationComponent />
       {!image && (
         <TouchableOpacity onPress={pickImage} style={globalStyles.button}>
           <Ionicons name="camera" size={20} />
           <Text style={globalStyles.buttonText}>Select Crop Image</Text>
         </TouchableOpacity>
       )}
+
       {image && (
         <View style={globalStyles.horizontal}>
           <Image source={{ uri: image.uri }} style={styles.image} />
@@ -80,6 +94,34 @@ export default function Home() {
           </TouchableOpacity>
         </View>
       )}
+      {image && (
+        <TouchableOpacity onPress={clear} style={globalStyles.mutedButton}>
+          <Text style={globalStyles.mutedButtonText}>Clear</Text>
+        </TouchableOpacity>
+      )}
+      {
+        loading &&
+        <LottieView
+          autoPlay
+          style={{
+            width: 200,
+            height: 200,
+            backgroundColor: '#eee',
+          }}
+          // Find more Lottie files at https://lottiefiles.com/featured
+          source={require('../../../assets/animations/12345.json')}
+        />
+      }
+      {
+        result && !loading && (
+          <View style={globalStyles.vertical}>
+            <ThemedText>Disease Name: {result.disease.replaceAll("_", " ")}</ThemedText>
+            <ThemedText>Disease Cause: {result.cause}</ThemedText>
+            <ThemedText>Disease Cure: {result.cure}</ThemedText>
+            <ThemedText>Disease Prevention: {result.preventions}</ThemedText>
+          </View>
+        )
+      }
     </View>
   );
 }
