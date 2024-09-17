@@ -1,11 +1,12 @@
+import LocationComponent from '@/components/Location';
+import { globalStyles } from '@/constants/styles';
 import useImageUpload from '@/hooks/useImageUpload';
+import { Ionicons } from '@expo/vector-icons';
+import { useLogto } from '@logto/rn';
+import Axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
-import { Button, Image, StyleSheet, Text, Touchable, View, TouchableOpacity } from 'react-native';
-import { useLogto } from '@logto/rn';
-import { Colors } from '@/constants/colors';
-import { globalStyles } from '@/constants/styles';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export default function Home() {
   const [image, setImage] = useState<string | null>(null);
   const { uploadImage } = useImageUpload()
@@ -38,7 +39,7 @@ export default function Home() {
 
   const handleUpload = () => {
     const formData = new FormData();
-    formData.append('image', new File([image], 'image.jpg'));
+    formData.append('image', new File([image], 'image.jpg', { type: "image/png" || "image/jpg" || "image/jpeg" }));
     formData.append('sub', id);
     Axios.put('http://192.168.232.76:3000/api/v1/uploads', formData)
       .then((response) => {
@@ -47,19 +48,34 @@ export default function Home() {
       .catch((error) => {
         console.log(error);
       });
-
-    // console.log(image)
-    // uploadImage()
   }
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={globalStyles.button}
-      >
-        <Text>Press me</Text>
-      </TouchableOpacity>
-      <Button title="Pick Image" onPress={pickImage} />
-      <Button title="Upload Image" onPress={handleUpload} />
+    <View style={globalStyles.pageWrapper}>
+      <LocationComponent />
+      {
+        !image &&
+        <TouchableOpacity
+          onPress={pickImage}
+          style={globalStyles.button}
+        >
+          <Ionicons name='camera' size={20} />
+          <Text style={globalStyles.buttonText}>
+            Select Crop Image
+          </Text>
+        </TouchableOpacity>
+      }
+      {
+        image &&
+        <View style={globalStyles.horizontal}>
+          <Image source={{ uri: image }} style={styles.image} />
+
+          <TouchableOpacity
+            style={globalStyles.button}
+          >
+            <Text style={globalStyles.buttonText}>Upload</Text>
+          </TouchableOpacity>
+        </View>
+      }
     </View>
   );
 }
@@ -71,7 +87,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: 200,
+    width: "100%",
+    objectFit: 'cover',
     height: 200,
+    borderRadius: 5,
   },
 });
