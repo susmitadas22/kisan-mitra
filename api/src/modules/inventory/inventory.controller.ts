@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Create, CreateCommand } from './usecases/create';
 import { Delete as DeleteItem } from './usecases/delete';
@@ -19,8 +19,8 @@ export class InventoryController {
   ) {}
 
   @ApiOperation({ summary: 'List inventory items' })
-  @Post('/')
-  list(@Body('sub') sub: string) {
+  @Get('/')
+  list(@Query('sub') sub: string) {
     return this.listUseCase.execute(
       ListCommand.create({
         sub,
@@ -28,9 +28,9 @@ export class InventoryController {
     );
   }
 
-  @ApiOperation({ summary: 'List inventory items' })
-  @Post('/my')
-  my(@Body('sub') sub: string) {
+  @ApiOperation({ summary: 'List shared inventory items' })
+  @Get('/explore')
+  my(@Query('sub') sub: string) {
     return this.mineUseCase.execute(
       MineCommand.create({
         sub,

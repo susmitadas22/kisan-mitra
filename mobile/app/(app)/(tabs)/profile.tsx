@@ -6,11 +6,13 @@ import { useData } from "@/contexts/DataContext";
 import { Ionicons } from "@expo/vector-icons";
 import { type IdTokenClaims, useLogto } from "@logto/rn";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   Alert,
   Pressable,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -46,6 +48,7 @@ export default function Profile() {
     changeAppLanguage: Texts[language].changeAppLanguage,
     language: Texts[language].app_language,
   });
+  const route = useRouter();
   useEffect(() => {
     const fetchUser = async () => {
       const claims = await getIdTokenClaims();
@@ -128,6 +131,16 @@ export default function Profile() {
           })}
         </View>
       </ThemedCard>
+      <TouchableOpacity
+        onPress={() => {
+          route.push("/(app)/inventory");
+        }}
+        style={globalStyles.mutedButton}
+      >
+        <Text style={globalStyles.mutedButtonText}>
+          Your inventory
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }

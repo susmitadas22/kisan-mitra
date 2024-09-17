@@ -11,13 +11,8 @@ import { useColorScheme } from "react-native";
 export default function AppLayout() {
   const { isInitialized, isAuthenticated } = useLogto();
   const colorScheme = useColorScheme();
-  console.log({
-    isInitialized,
-    isAuthenticated,
-  });
   if (!isInitialized) return null;
   if (!isAuthenticated) {
-    console.log("Redirecting to sign-in...");
     return <Redirect href="/sign-in" />;
   }
   return (
@@ -25,6 +20,12 @@ export default function AppLayout() {
       <DataProvider>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="inventory"
+            options={{
+              headerBackTitleVisible: false,
+            }}
+          />
         </Stack>
       </DataProvider>
     </ThemeProvider>

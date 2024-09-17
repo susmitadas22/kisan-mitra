@@ -3,7 +3,7 @@ export const Texts = {
     nearbyDiseaseTitle: "Nearby Diseases To You",
     nearbyDiseaseDescription:
       "Here is a list of diseases affecting farmers nearby, take timely precautions",
-    sharedInventory: "Shared Inventory",
+    inventory: "Inventory",
     sharedInventoryDescription:
       "Here is a list of shared inventory items, you can request them",
     away: "Km away",
@@ -12,6 +12,7 @@ export const Texts = {
     Scan: "Scan",
     Profile: "Profile",
     Weather: "Weather",
+    Inventory: "Inventory",
     changeAppLanguage: "Change App Language",
     app_language: "English",
   },
@@ -19,7 +20,7 @@ export const Texts = {
     nearbyDiseaseTitle: "आपके आस-पास के पौधों के रोग",
     nearbyDiseaseDescription:
       "यहां आस-पास के किसानों को प्रभावित करने वाली बीमारियों की सूची दी गई है, समय रहते सावधानी बरतें",
-    sharedInventory: "साझा इन्वेंटरी",
+    inventory: "इन्वेंटरी",
     sharedInventoryDescription:
       "यहां साझा इन्वेंटरी आइटमों की सूची है, आप उन्हें अनुरोध कर सकते हैं",
     away: "किमी दूर",
@@ -28,13 +29,14 @@ export const Texts = {
     Scan: "स्कैन",
     Profile: "प्रोफ़ाइल",
     Weather: "मौसम",
+    Inventory: "इन्वेंटरी",
     changeAppLanguage: "ऐप भाषा बदलें",
     app_language: "हिंदी",
   },
   pn: {
     nearbyDiseaseTitle: "તમારા નજીકના રોગ",
     nearbyDiseaseDescription: "ਨੇਟਿਵ ਸੂਚੀ ਦੇ ਲਈ ਕਾਰਡ ਹੈ",
-    sharedInventory: "ਸਾਂਝੀ ਭੰਡਾਰ",
+    inventory: "ਇੰਵੈਂਟਰੀ",
     sharedInventoryDescription:
       "ਇੱਥੇ ਸਾਂਝੀ ਭੰਡਾਰ ਆਈਟਮਾਂ ਦੀ ਇੱਕ ਸੂਚੀ ਹੈ, ਤੁਸੀਂ ਉਨ੍ਹਾਂ ਦੀ ਬੇਨਤੀ ਕਰ ਸਕਦੇ ਹੋ",
     away: "ਕਿਮੀ ਦੂਰ",
@@ -43,6 +45,7 @@ export const Texts = {
     Scan: "ਸਕੈਨ",
     Profile: "ਪ੍ਰੋਫਾਈਲ",
     Weather: "ਮੌਸਮ",
+    Inventory: "ਇੰਵੈਂਟਰੀ",
     changeAppLanguage: "ਐਪ ਭਾਸ਼ਾ ਬਦਲੋ",
     app_language: "ਪੰਜਾਬੀ",
   },
@@ -50,7 +53,7 @@ export const Texts = {
     nearbyDiseaseTitle: "আপনার কাছাকাছি উদ্ভিদ রোগ",
     nearbyDiseaseDescription:
       "এখানে আশেপাশের কৃষকদের প্রভাবিত রোগের একটি তালিকা রয়েছে, সময়মত সতর্কতা অবলম্বন করুন",
-    sharedInventory: "ভাগাভাগি ইনভেন্টরি",
+    inventory: "ইনভেন্টরি",
     sharedInventoryDescription:
       "এখানে ভাগাভাগি ইনভেন্টরি আইটেমগুলির তালিকা রয়েছে, আপনি তাদের অনুরোধ করতে পারেন",
     away: "কিমি দূরে",
@@ -59,6 +62,7 @@ export const Texts = {
     Scan: "স্ক্যান",
     Profile: "প্রোফাইল",
     Weather: "আবহাওয়া",
+    Inventory: "ইনভেন্টরি",
     changeAppLanguage: "অ্যাপ ভাষা পরিবর্তন করুন",
     app_language: "বাংলা",
   },
@@ -66,12 +70,13 @@ export const Texts = {
     nearbyDiseaseTitle: "আপোনাৰ পাছত উদ্ভিদৰ ৰোগ",
     nearbyDiseaseDescription:
       "এতিয়ালৈ আপোনাৰ পাছতৰ কিষানসকলৰ প্ৰভাৱিত ৰোগৰ তালিকা দিয়া হৈছে, সময়ত সাবধানি কৰক",
-    sharedInventory: "শ্বেয়াৰ ইনভেণ্টৰী",
+    inventory: "ইনভেণ্টৰী",
     sharedInventoryDescription:
       "এতিয়ালৈ শ্বেয়াৰ ইনভেণ্টৰী আইটেমসমূহৰ তালিকা দিয়া হৈছে, আপুনি তাকে অনুৰোধ কৰিব পাৰে",
     away: "কিমি দূৰত",
     more: "অধিক পঢ়ক",
     Explore: "অন্বেষণ",
+    Inventory: "ইনভেণ্টৰী",
     Scan: "স্কেন",
     Profile: "প্ৰ'ফাইল",
     Weather: "আবহাৱ",

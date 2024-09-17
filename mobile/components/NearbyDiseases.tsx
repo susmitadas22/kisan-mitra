@@ -15,7 +15,7 @@ import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 
 export default function NearbyDiseases() {
-  const { nearbyDiseases, language, coords } = useData();
+  const { nearbyDiseases, language } = useData();
   const [texts, setTexts] = useState({
     title: Texts[language].nearbyDiseaseTitle,
     description: Texts[language].nearbyDiseaseDescription,
@@ -63,7 +63,7 @@ const Item: React.FC<DiseaseReponseType> = (disease) => {
       more: Texts[language].more,
     });
   }, [language]);
-  const { closeModal, modalRef, modalSnapPoints, openModal, renderBackdrop } =
+  const { modalRef, modalSnapPoints, openModal, renderBackdrop } =
     useBottomSheetModal({
       snapPoints: ["50%", "90%"],
     });
@@ -212,9 +212,6 @@ const Item: React.FC<DiseaseReponseType> = (disease) => {
               Disease Cause:
             </ThemedText>
             <ThemedText>{disease?.cause}</ThemedText>
-            {/* <ThemedText>{disease?.cause}</ThemedText>
-          <ThemedText>Disease Cure: {disease?.cure}</ThemedText>
-          <ThemedText>Disease Prevention: {disease?.preventions}</ThemedText> */}
             <ThemedText
               style={{
                 fontSize: 16,

@@ -7,14 +7,14 @@ import { ThemedCard } from "./ThemedCard";
 import { ThemedText } from "./ThemedText";
 
 export default function Inventory() {
-  const { inventory, language } = useData();
+  const { sharedInventory: inventory, language } = useData();
   const [texts, setTexts] = useState({
-    title: Texts[language].sharedInventory,
+    title: Texts[language].inventory,
     description: Texts[language].sharedInventoryDescription,
   });
   useEffect(() => {
     setTexts({
-      title: Texts[language].sharedInventory,
+      title: Texts[language].inventory,
       description: Texts[language].sharedInventoryDescription,
     });
   }, [language]);
