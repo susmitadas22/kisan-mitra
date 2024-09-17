@@ -1,9 +1,14 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import * as Location from 'expo-location';
 import Axios from "axios";
 import { DiseaseReponseType, InventoryItemType } from "@/types";
 import { useLogto } from "@logto/rn";
 import * as SecureStore from 'expo-secure-store';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import { Platform } from "react-native";
+
+import Constants from 'expo-constants';
 type DataProviderProps = {
     children: ReactNode;
 };
@@ -16,6 +21,61 @@ type DataContextType = {
     sub: string | null;
     language: "hi" | "en" | "bn" | "pn"
     setLanguageToSecureStore: (lang: "hi" | "en" | "bn" | "pn") => Promise<void>
+}
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
+
+function handleRegistrationError(errorMessage: string) {
+    alert(errorMessage);
+    throw new Error(errorMessage);
+}
+async function registerForPushNotificationsAsync() {
+    if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+            name: 'default',
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+        });
+    }
+
+    if (Device.isDevice) {
+        const { status: existingStatus } =
+            await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+            handleRegistrationError('Permission not granted to get push token for push notification!');
+            return;
+        }
+        const projectId =
+            Constants?.expoConfig?.extra?.eas?.projectId ??
+            Constants?.easConfig?.projectId;
+        if (!projectId) {
+            handleRegistrationError('Project ID not found');
+        }
+        try {
+            const pushTokenString = (
+                await Notifications.getExpoPushTokenAsync({
+                    projectId,
+                })
+            ).data;
+            return pushTokenString;
+        } catch (e: unknown) {
+            handleRegistrationError(`${e}`);
+        }
+    } else {
+        handleRegistrationError('Must use physical device for push notifications');
+    }
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -35,6 +95,40 @@ export function DataProvider({ children }: DataProviderProps) {
     const [nearbyDiseases, setNearbyDiseases] = useState<DiseaseReponseType[]>([])
     const [sub, setSub] = useState<string | null>(null)
     const [inventory, setInventory] = useState<InventoryItemType[]>([])
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState<
+        Notifications.Notification | undefined
+    >(undefined);
+
+    const notificationListener = useRef<Notifications.Subscription>();
+    const responseListener = useRef<Notifications.Subscription>();
+
+    useEffect(() => {
+        registerForPushNotificationsAsync()
+            .then((token) => setExpoPushToken(token ?? ''))
+            .catch((error: any) => setExpoPushToken(`${error}`));
+
+        notificationListener.current =
+            Notifications.addNotificationReceivedListener((notification) => {
+                setNotification(notification);
+            });
+
+        responseListener.current =
+            Notifications.addNotificationResponseReceivedListener((response) => {
+                console.log(response);
+            });
+
+        return () => {
+            notificationListener.current &&
+                Notifications.removeNotificationSubscription(
+                    notificationListener.current,
+                );
+            responseListener.current &&
+                Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
+    console.log(expoPushToken)
+
     async function setLanguageToSecureStore(lang: "hi" | "en" | "bn" | "pn") {
         const language = await SecureStore.setItemAsync("language", lang);
         setLanguage(lang)
@@ -93,6 +187,16 @@ export function DataProvider({ children }: DataProviderProps) {
             sub
         }).then((res) => {
             setInventory(res.data.body)
+        })
+
+        Axios.post("http://192.168.232.76:3000/api/v1/user", {
+            sub,
+            lat: coords?.latitude,
+            lng: coords?.longitude,
+            token: expoPushToken
+        }).then((res) => {
+            console.log(res.data)
+            setNotification(res.data.body)
         })
 
     }, [coords])
