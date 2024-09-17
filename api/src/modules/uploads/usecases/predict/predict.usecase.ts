@@ -6,8 +6,8 @@ import { PREDICT_URL } from '@shared/constants';
 import { PrismaService } from '@shared/database';
 import { generateText } from 'ai';
 import axios from 'axios';
-import { PredictCommand } from './predict.command';
 import { Expo } from 'expo-server-sdk';
+import { PredictCommand } from './predict.command';
 
 type Prediction = {
   label: string;
@@ -164,8 +164,7 @@ export class Predict {
         messages.push({
           to: pushToken,
           sound: 'default',
-          body: 'This is a test notification',
-          data: { withSome: 'data' },
+          body: `A disease has been detected within a 10km radius of your location`,
         });
       }
       try {
