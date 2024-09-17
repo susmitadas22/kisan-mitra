@@ -1,15 +1,13 @@
-// const { getDefaultConfig } = require("expo/metro-config");
+const { getDefaultConfig } = require("expo/metro-config");
 
-// const config = getDefaultConfig();
+const config = getDefaultConfig(__dirname);
 
-// config.resolver.unstable_enablePackageExports = true;
+config.resolver.unstable_enablePackageExports = true;
 
-// module.exports = config;
-
-const config = {
-  resolver: {
-    unstable_enablePackageExports: true,
-  },
-};
-
+config.resolver.unstable_conditionNames = [
+    'browser',
+    'require',
+    'react-native',
+  ]
+  
 module.exports = config;
