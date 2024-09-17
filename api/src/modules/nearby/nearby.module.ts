@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from '@shared/database';
-import { NearbyController } from './uploads.controller';
+import { NearbyController } from './nearby.controller';
 import { USE_CASES } from './usecases';
 
 @Module({

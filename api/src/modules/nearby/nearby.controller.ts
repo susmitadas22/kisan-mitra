@@ -1,8 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { List, ListCommand } from './usecases/list';
 
-@Controller('nearby')
+@ApiTags('Nearby')
+@Controller({
+  path: '/nearby',
+  version: '1',
+})
 export class NearbyController {
   constructor(private readonly listUseCase: List) {}
 

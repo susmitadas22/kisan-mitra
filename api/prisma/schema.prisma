@@ -29,6 +29,5 @@ model Inventory {
   updatedAt DateTime @updatedAt
   name      String
   quantity  Int
-  price     Float
-  image_url String
+  price     Float?
 }
