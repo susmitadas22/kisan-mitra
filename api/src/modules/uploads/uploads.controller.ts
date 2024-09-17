@@ -17,7 +17,11 @@ export class UploadsController {
 
   @Put('/')
   @ApiOperation({ summary: 'Upload an item' })
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(
+    FileInterceptor('image', {
+      // dest: './uploads',
+    }),
+  )
   predict(
     @Body() payload: { sub: string },
     @UploadedFile(
