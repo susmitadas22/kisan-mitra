@@ -1,12 +1,6 @@
-import NearbyDiseases from '@/components/NearbyDiseases'
-import { globalStyles } from '@/constants/styles'
-import React from 'react'
-import { View } from 'react-native'
+import NearbyDiseases from "@/components/NearbyDiseases";
+import React from "react";
 
 export default function Explore() {
-    return (
-        <View style={globalStyles.pageWrapper}>
-            <NearbyDiseases />
-        </View>
-    )
+  return <NearbyDiseases />;
 }
