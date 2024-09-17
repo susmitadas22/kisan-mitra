@@ -124,6 +124,18 @@ export class Predict {
         symptoms: symptoms.text,
         preventions: preventions.text,
       });
+      await this.prismaService.image.update({
+        where: {
+          id,
+        },
+        data: {
+          disease: data[0].label,
+          cause: cause.text,
+          cure: cure.text,
+          symptoms: symptoms.text,
+          preventions: preventions.text,
+        },
+      });
       return {
         id,
         url,
