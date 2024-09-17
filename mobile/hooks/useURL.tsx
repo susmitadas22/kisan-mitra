@@ -1,6 +1,5 @@
 const useURL = (slug: string) => {
-    return `${process.env.EXPO_PUBLIC_BACKEND_URL}/${slug}`
-}
+  return `${process.env.EXPO_PUBLIC_BACKEND_URL}/${slug}`;
+};
 
-
-export default useURL
+export default useURL;

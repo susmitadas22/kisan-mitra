@@ -59,6 +59,9 @@ importers:
       ollama:
         specifier: ^0.5.9
         version: 0.5.9
+      openmeteo:
+        specifier: ^1.1.4
+        version: 1.1.4
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
@@ -890,6 +893,10 @@ packages:
     resolution: {integrity: sha512-um0xL3fO7Mf4fDxcqx9KryrB7zgRM5JSlvGN5AGkP6JLM5XEKyjeAiPbNxdXVXQ16isuAhYpvP88NgL2BGd6aA==}
     engines: {node: '>=8.0.0', npm: '>=5.0.0'}
     hasBin: true
+
+  '@openmeteo/sdk@1.15.0':
+    resolution: {integrity: sha512-ud/ZZtu5IJUc7qsZ38oVY2lxN+rOIGRXUPNg1RU59RXsoALxbYOEAw8c3QEOOBNrhXvkPX1frwRP9Ez0TWIqnQ==}
+    engines: {node: '>=12.0'}
 
   '@opentelemetry/api@1.9.0':
     resolution: {integrity: sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==}
@@ -2174,6 +2181,9 @@ packages:
     resolution: {integrity: sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==}
     engines: {node: ^10.12.0 || >=12.0.0}
 
+  flatbuffers@24.3.25:
+    resolution: {integrity: sha512-3HDgPbgiwWMI9zVB7VYBHaMrbOO7Gm0v+yD2FV/sCKj+9NDeVL7BOBYUuhWAQGKWOzBo8S9WdMvV0eixO233XQ==}
+
   flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
 
@@ -2921,6 +2931,10 @@ packages:
     peerDependenciesMeta:
       zod:
         optional: true
+
+  openmeteo@1.1.4:
+    resolution: {integrity: sha512-TalTDl0M7JJoeRTf+rWiFZ9SLvoxm7KkFLOQqcSjCiYs+bVMhax1qtryJqeZ1RF4W4Xfsgcl9x+VC1z39ULCxA==}
+    engines: {node: '>=12.0'}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -4955,6 +4969,10 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  '@openmeteo/sdk@1.15.0':
+    dependencies:
+      flatbuffers: 24.3.25
+
   '@opentelemetry/api@1.9.0': {}
 
   '@pkgjs/parseargs@0.11.0':
@@ -6527,6 +6545,8 @@ snapshots:
       keyv: 4.5.4
       rimraf: 3.0.2
 
+  flatbuffers@24.3.25: {}
+
   flatted@3.3.1: {}
 
   follow-redirects@1.15.9: {}
@@ -7421,6 +7441,11 @@ snapshots:
       zod: 3.23.8
     transitivePeerDependencies:
       - encoding
+
+  openmeteo@1.1.4:
+    dependencies:
+      '@openmeteo/sdk': 1.15.0
+      flatbuffers: 24.3.25
 
   optionator@0.9.4:
     dependencies:
