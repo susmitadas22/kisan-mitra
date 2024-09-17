@@ -9,17 +9,17 @@ import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export default function Home() {
   const [image, setImage] = useState<string | null>(null);
-  const { uploadImage } = useImageUpload()
-  const { getIdTokenClaims } = useLogto()
-  const [id, setID] = useState('')
+  const { uploadImage } = useImageUpload();
+  const { getIdTokenClaims } = useLogto();
+  const [id, setID] = useState("");
   const setUser = async () => {
     const { sub } = await getIdTokenClaims();
-    setID(sub)
+    setID(sub);
     console.log(sub);
-  }
+  };
   useEffect(() => {
-    setUser()
-  }, [])
+    setUser();
+  }, []);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -37,7 +37,7 @@ export default function Home() {
     }
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     const formData = new FormData();
     formData.append('image', new File([image], 'image.jpg', { type: "image/png" || "image/jpg" || "image/jpeg" }));
     formData.append('sub', id);
@@ -83,8 +83,8 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: "100%",

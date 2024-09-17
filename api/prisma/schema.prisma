@@ -8,5 +8,10 @@ datasource db {
 }
 
 model Image {
-  id String @id @default(cuid())
+  id        String   @id @default(cuid())
+  sub       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  disease   String?
+  mimeType  String
 }
