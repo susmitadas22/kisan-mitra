@@ -57,7 +57,7 @@ export default function Inventory() {
     const token = await getIdTokenClaims();
     try {
       closeModal();
-      await axios.post("http://192.168.232.128:3000/api/v1/inventory", {
+      await axios.post("http://192.168.232.76:3000/api/v1/inventory", {
         name,
         price,
         quantity,
@@ -218,7 +218,7 @@ const Item: React.FC<InventoryItemType> = (item) => {
             onPress={async () => {
               try {
                 await axios.patch(
-                  "http://192.168.232.128:3000/api/v1/inventory/shared",
+                  "http://192.168.232.76:3000/api/v1/inventory/shared",
                   {
                     id: item.id,
                   }
