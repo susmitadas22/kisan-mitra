@@ -59,7 +59,6 @@ export class InventoryController {
       sub: string;
     },
   ) {
-    console.log(payload);
     return this.createUseCase.execute(
       CreateCommand.create({
         name: payload.name,
