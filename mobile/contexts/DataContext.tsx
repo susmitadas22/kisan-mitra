@@ -241,11 +241,13 @@ export function DataProvider({ children }: DataProviderProps) {
     // }).then((res) => {
     //   setWeather(res.data.body);
     // });
-    Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore").then(
-      (res) => {
-        setSharedInventory(res.data.body);
-      }
-    );
+    Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore", {
+      params: {
+        sub,
+      },
+    }).then((res) => {
+      setSharedInventory(res.data.body);
+    });
   }, [coords]);
   const refresh = () => {
     setRefreshing(true);
@@ -289,11 +291,13 @@ export function DataProvider({ children }: DataProviderProps) {
     // }).then((res) => {
     //   setWeather(res.data.body);
     // });
-    Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore").then(
-      (res) => {
-        setSharedInventory(res.data.body);
-      }
-    );
+    Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore", {
+      params: {
+        sub,
+      },
+    }).then((res) => {
+      setSharedInventory(res.data.body);
+    });
     setRefreshing(false);
   };
 
