@@ -1,3 +1,4 @@
+import { ThemedCard } from "@/components/ThemedCard";
 import { ThemedText } from "@/components/ThemedText";
 import { globalStyles } from "@/constants/styles";
 import { useData } from "@/contexts/DataContext";
@@ -57,7 +58,7 @@ export default function Home() {
     setLoading(true);
 
     const { data } = await axios.post(
-      "http://192.168.232.128:3000/api/v1/uploads",
+      "http://192.168.232.76:3000/api/v1/uploads",
       {
         image: image?.base64,
         sub: sub,
@@ -123,12 +124,20 @@ export default function Home() {
       {!result && loading && <ActivityIndicator />}
       {result && !loading && (
         <View style={globalStyles.vertical}>
-          <ThemedText>
-            Disease Name: {result?.disease?.replaceAll("_", " ")}
-          </ThemedText>
-          <ThemedText>Disease Cause: {result.cause}</ThemedText>
-          <ThemedText>Disease Cure: {result.cure}</ThemedText>
-          <ThemedText>Disease Prevention: {result.preventions}</ThemedText>
+          <ThemedCard>
+            <ThemedText>
+              Disease Name: {result?.disease?.replaceAll("_", " ")}
+            </ThemedText>
+          </ThemedCard>
+          <ThemedCard>
+            <ThemedText>Disease Cause: {result.cause}</ThemedText>
+          </ThemedCard>
+          <ThemedCard>
+            <ThemedText>Disease Cure: {result.cure}</ThemedText>
+          </ThemedCard>
+          <ThemedCard>
+            <ThemedText>Disease Prevention: {result.preventions}</ThemedText>
+          </ThemedCard>
         </View>
       )}
     </ScrollView>

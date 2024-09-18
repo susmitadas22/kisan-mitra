@@ -36,11 +36,11 @@ export const Texts = {
     yourInventory: "आपकी इन्वेंटरी",
   },
   pn: {
-    nearbyDiseaseTitle: "તમારા નજીકના રોગ",
-    nearbyDiseaseDescription: "ਨੇਟਿਵ ਸੂਚੀ ਦੇ ਲਈ ਕਾਰਡ ਹੈ",
+    nearbyDiseaseTitle: "ਨੇੜੇ ਦੀਆਂ ਬਿਮਾਰੀਆਂ ਤੁਹਾਡੇ ਲਈ",
+    nearbyDiseaseDescription: "ਇੱਥੇ ਨੇੜਲੇ ਕਿਸਾਨਾਂ ਨੂੰ ਪ੍ਰਭਾਵਿਤ ਕਰਨ ਵਾਲੀਆਂ ਬਿਮਾਰੀਆਂ ਦੀ ਸੂਚੀ ਹੈ, ਸਮੇਂ ਸਿਰ ਸਾਵਧਾਨੀਆਂ ਵਰਤੋ",
     inventory: "ਇੰਵੈਂਟਰੀ",
     sharedInventoryDescription:
-      "ਇੱਥੇ ਸਾਂਝੀ ਭੰਡਾਰ ਆਈਟਮਾਂ ਦੀ ਇੱਕ ਸੂਚੀ ਹੈ, ਤੁਸੀਂ ਉਨ੍ਹਾਂ ਦੀ ਬੇਨਤੀ ਕਰ ਸਕਦੇ ਹੋ",
+      "ਇੱਥੇ ਸਾਂਝੀਆਂ ਵਸਤੂਆਂ ਦੀ ਇੱਕ ਸੂਚੀ ਹੈ, ਤੁਸੀਂ ਉਹਨਾਂ ਲਈ ਬੇਨਤੀ ਕਰ ਸਕਦੇ ਹੋ",
     away: "ਕਿਮੀ ਦੂਰ",
     more: "ਹੋਰ ਪੜ੍ਹੋ",
     Explore: "ਖੋਜੋ",
