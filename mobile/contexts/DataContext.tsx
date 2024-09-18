@@ -202,7 +202,7 @@ export function DataProvider({ children }: DataProviderProps) {
 
   useEffect(() => {
     if (!coords) return;
-    Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
+    Axios.post("http://192.168.232.128:3000/api/v1/nearby", {
       lat: coords?.latitude,
       lng: coords?.longitude,
       sub,
@@ -210,7 +210,7 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setNearbyDiseases(res.data.body);
     });
-    Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
+    Axios.post("http://192.168.232.128:3000/api/v1/nearby", {
       lat: coords?.latitude,
       lng: coords?.longitude,
       sub,
@@ -218,14 +218,14 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setDiseases(res.data.body);
     });
-    Axios.get("http://192.168.232.76:3000/api/v1/inventory", {
+    Axios.get("http://192.168.232.128:3000/api/v1/inventory", {
       params: {
         sub,
       },
     }).then((res) => {
       setInventory(res.data.body);
     });
-    Axios.post("http://192.168.232.76:3000/api/v1/user", {
+    Axios.post("http://192.168.232.128:3000/api/v1/user", {
       sub,
       lat: coords?.latitude,
       lng: coords?.longitude,
@@ -233,7 +233,7 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setNotification(res.data.body);
     });
-    // Axios.get("http://192.168.232.76:3000/api/v1/weather", {
+    // Axios.get("http://192.168.232.128:3000/api/v1/weather", {
     //   params: {
     //     lat: coords.latitude,
     //     lng: coords.longitude,
@@ -241,7 +241,7 @@ export function DataProvider({ children }: DataProviderProps) {
     // }).then((res) => {
     //   setWeather(res.data.body);
     // });
-    Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore", {
+    Axios.get("http://192.168.232.128:3000/api/v1/inventory/explore", {
       params: {
         sub,
       },
@@ -252,7 +252,7 @@ export function DataProvider({ children }: DataProviderProps) {
   const refresh = () => {
     setRefreshing(true);
     if (!coords) return;
-    Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
+    Axios.post("http://192.168.232.128:3000/api/v1/nearby", {
       lat: coords?.latitude,
       lng: coords?.longitude,
       sub,
@@ -260,7 +260,7 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setNearbyDiseases(res.data.body);
     });
-    Axios.post("http://192.168.232.76:3000/api/v1/nearby", {
+    Axios.post("http://192.168.232.128:3000/api/v1/nearby", {
       lat: coords?.latitude,
       lng: coords?.longitude,
       sub,
@@ -268,14 +268,14 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setDiseases(res.data.body);
     });
-    Axios.get("http://192.168.232.76:3000/api/v1/inventory", {
+    Axios.get("http://192.168.232.128:3000/api/v1/inventory", {
       params: {
         sub,
       },
     }).then((res) => {
       setInventory(res.data.body);
     });
-    Axios.post("http://192.168.232.76:3000/api/v1/user", {
+    Axios.post("http://192.168.232.128:3000/api/v1/user", {
       sub,
       lat: coords?.latitude,
       lng: coords?.longitude,
@@ -283,7 +283,7 @@ export function DataProvider({ children }: DataProviderProps) {
     }).then((res) => {
       setNotification(res.data.body);
     });
-    // Axios.get("http://192.168.232.76:3000/api/v1/weather", {
+    // Axios.get("http://192.168.232.128:3000/api/v1/weather", {
     //   params: {
     //     lat: coords.latitude,
     //     lng: coords.longitude,
@@ -291,7 +291,7 @@ export function DataProvider({ children }: DataProviderProps) {
     // }).then((res) => {
     //   setWeather(res.data.body);
     // });
-    Axios.get("http://192.168.232.76:3000/api/v1/inventory/explore", {
+    Axios.get("http://192.168.232.128:3000/api/v1/inventory/explore", {
       params: {
         sub,
       },
