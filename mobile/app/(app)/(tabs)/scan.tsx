@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -67,7 +68,6 @@ export default function Home() {
     );
     setLoading(false);
     setResult(data.body);
-    console.log(data.body);
   };
   const clear = () => {
     setLoading(false);
@@ -83,7 +83,7 @@ export default function Home() {
     setUser();
   }, []);
   return (
-    <View style={globalStyles.pageWrapper}>
+    <ScrollView style={globalStyles.pageWrapper}>
       {!image && (
         <TouchableOpacity
           onPress={pickImage}
@@ -131,7 +131,7 @@ export default function Home() {
           <ThemedText>Disease Prevention: {result.preventions}</ThemedText>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 

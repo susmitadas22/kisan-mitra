@@ -1,8 +1,12 @@
+import { ThemedText } from "@/components/ThemedText";
+import { Colors } from "@/constants/colors";
+import { globalStyles } from "@/constants/styles";
 import { useLogto } from "@logto/rn";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import LottieView from "lottie-react-native";
 import { useEffect } from "react";
-import { Button, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignIn() {
@@ -10,9 +14,6 @@ export default function SignIn() {
   const router = useRouter();
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("Redirecting to app...");
-      // On web, static rendering will stop here as the user is authenticated
-      // in the headless Node process that the pages are rendered in.
       return router.push("/");
     }
   }, [isAuthenticated]);
@@ -20,20 +21,56 @@ export default function SignIn() {
     <SafeAreaView
       style={{
         flex: 1,
+        backgroundColor: Colors.dark.background,
       }}
     >
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <View
         style={{
           flex: 1,
           justifyContent: "center",
           alignItems: "center",
+          padding: 20,
         }}
       >
-        <Button
-          title="Sign In"
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 20,
+          }}
+        >
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <LottieView
+              autoPlay
+              style={{
+                width: 200,
+                height: 200,
+              }}
+              source={require("@/assets/animations/famer.json")}
+            />
+            <ThemedText
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+              }}
+            >
+              KisanMitra
+            </ThemedText>
+          </View>
+        </View>
+        <TouchableOpacity
           onPress={async () => signIn("dev.jabed.kisna://callback")}
-        />
+          style={globalStyles.button}
+        >
+          <ThemedText style={globalStyles.buttonText}>Sign In</ThemedText>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

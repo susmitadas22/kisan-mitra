@@ -62,7 +62,6 @@ export class Predict {
       const google = createGoogleGenerativeAI({
         apiKey: this.configService.get<string>('app.ai'),
       });
-      console.log(`${data[0].label}`);
       const cause = await generateText({
         model: google('gemini-pro'),
         messages: [
@@ -119,12 +118,6 @@ export class Predict {
           },
         ],
       });
-      console.log({
-        cause: cause.text,
-        cure: cure.text,
-        symptoms: symptoms.text,
-        preventions: preventions.text,
-      });
       await this.prismaService.image.update({
         where: {
           id,
@@ -168,8 +161,7 @@ export class Predict {
         });
       }
       try {
-        const data = await expo.sendPushNotificationsAsync(messages);
-        console.log(data);
+        await expo.sendPushNotificationsAsync(messages);
       } catch (error: any) {
         console.error(error);
       }

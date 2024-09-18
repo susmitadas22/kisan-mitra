@@ -7,7 +7,6 @@ export class Create {
   constructor(private readonly prismaService: PrismaService) {}
   async execute(command: CreateCommand) {
     const { lat, lng, sub, token } = command;
-    console.log({ lat, lng, sub, token });
     const user = await this.prismaService.user.findFirst({
       where: {
         sub,
