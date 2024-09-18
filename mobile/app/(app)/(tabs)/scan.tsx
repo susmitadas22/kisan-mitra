@@ -57,7 +57,7 @@ export default function Home() {
     setLoading(true);
 
     const { data } = await axios.post(
-      "http://192.168.232.76:3000/api/v1/uploads",
+      "http://192.168.232.128:3000/api/v1/uploads",
       {
         image: image?.base64,
         sub: sub,

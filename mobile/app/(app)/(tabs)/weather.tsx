@@ -15,7 +15,9 @@ export default function Weather() {
   const [data, setData] = useState({});
   return (
     <View style={globalStyles.pageWrapper}>
-      <ThemedText>{JSON.stringify(data)}</ThemedText>
+      <ThemedText>
+        hello
+      </ThemedText>
     </View>
   );
 }
