@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Image" ADD COLUMN     "thumb_down" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "thumb_up" INTEGER NOT NULL DEFAULT 0;

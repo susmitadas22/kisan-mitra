@@ -5,14 +5,16 @@ import { useBottomSheetModal } from "@/hooks/useBottomSheetModal";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { DiseaseReponseType } from "@/types";
 import { getDistance } from "@/utils/distance";
+import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { FlatList, Pressable, View } from "react-native";
+import { Button, FlatList, Pressable, TextInput, View } from "react-native";
 import { ThemedCard } from "./ThemedCard";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
+import Toast from "react-native-toast-message";
 
 export default function NearbyDiseases() {
   const { nearbyDiseases, language } = useData();
@@ -71,6 +73,7 @@ const Item: React.FC<DiseaseReponseType> = (disease) => {
     { light: Colors.light.background, dark: Colors.dark.background },
     "background"
   );
+  const [like, setLike] = useState<0 | 1 | 2 | 3 | 4>(0);
   return (
     <ThemedCard
       style={{
@@ -136,6 +139,52 @@ const Item: React.FC<DiseaseReponseType> = (disease) => {
             </ThemedText>
           )}
         </View>
+        {!like && (
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 15,
+            }}
+          >
+            <Ionicons
+              name={"thumbs-up-outline"}
+              size={18}
+              color="white"
+              onPress={() => {
+                setLike(1);
+                Toast.show({
+                  type: "success",
+                  text1: "Done",
+                  text2: "Posted Review",
+                });
+              }}
+            />
+            <Ionicons
+              name={"thumbs-down-outline"}
+              size={18}
+              color="white"
+              onPress={() => {
+                setLike(2);
+                Toast.show({
+                  type: "success",
+                  text1: "Done",
+                  text2: "Posted Review",
+                });
+              }}
+            />
+          </View>
+        )}
+        {like === 2 && (
+          <View>
+            <TextInput placeholder="Enter Review" />
+            <Button
+              onPress={() => {
+                setLike(3);
+              }}
+              title="Submit Review"
+            />
+          </View>
+        )}
       </View>
       <Image
         source={`https://kisan.jabed.dev/${disease.id}.${
@@ -147,6 +196,7 @@ const Item: React.FC<DiseaseReponseType> = (disease) => {
         }}
         key={disease.id}
       />
+
       <BottomSheetModal
         backdropComponent={renderBackdrop}
         ref={modalRef}

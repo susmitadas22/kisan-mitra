@@ -20,6 +20,8 @@ model Image {
   mimeType    String
   lat         Float
   lng         Float
+  thumb_up    Int      @default(0)
+  thumb_down  Int      @default(0)
 }
 
 model Inventory {

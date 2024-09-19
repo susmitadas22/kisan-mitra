@@ -2,6 +2,7 @@ import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import Toast from "react-native-toast-message";
 
 import {
   Outfit_100Thin,
@@ -54,6 +55,7 @@ export default function RootLayout() {
       <GestureHandlerRootView>
         <BottomSheetModalProvider>
           <Slot />
+          <Toast />
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </LogtoProvider>
